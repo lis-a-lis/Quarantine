@@ -1,3 +1,4 @@
+using UnityEngine;
 using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
@@ -18,11 +19,13 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         
         public void Exit()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Enter()
         {
+            Debug.Log("Progress loading State Enter");
+            
             LoadProgress();
         }
 
@@ -33,6 +36,9 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         private void OnProgressLoaded(GameProgress progress)
         {
+            if (progress == null)
+                Debug.Log("Progress is null!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            
             _gameStateMachine.Enter<SetupState, GameProgress>(progress);
         }
     }

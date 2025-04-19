@@ -8,9 +8,11 @@ namespace _Quarantine.Code.Infrastructure.Services.EntitiesCreation
     {
         private const string PlayerPrefabPath = "Player";
         
-        public Player CreatePlayer(IAssetsProvider assetsProvider)
+        public PlayerEntity CreatePlayer(IAssetsProvider assetsProvider)
         {
-            return Object.Instantiate(assetsProvider.LoadPrefab<Player>(PlayerPrefabPath));
+            PlayerEntity player = Object.Instantiate(assetsProvider.LoadPrefab<PlayerEntity>(PlayerPrefabPath));
+
+            return player;
         }
     }
 }

@@ -25,6 +25,8 @@ namespace _Quarantine.Code.Infrastructure.Services.SceneLoading
                 
             loading.allowSceneActivation = false;
 
+            await UniTask.Delay(2000);
+            
             while (!loading.isDone)
             {
                 if (loading.progress <= 0.9f)
@@ -32,10 +34,14 @@ namespace _Quarantine.Code.Infrastructure.Services.SceneLoading
 
                 if (loading.progress >= 0.9f)
                 {
-                    onLoaded?.Invoke();
-
                     if (activationCondition.Invoke())
+                    {
                         loading.allowSceneActivation = true;
+                        
+                        await UniTask.Yield();
+                        
+                        onLoaded?.Invoke();
+                    }
                 }
 
                 Debug.Log(loading.progress);

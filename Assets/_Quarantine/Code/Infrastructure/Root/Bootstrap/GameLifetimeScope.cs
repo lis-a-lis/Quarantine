@@ -1,14 +1,13 @@
-using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
-using _Quarantine.Code.Infrastructure.GameStates;
-using _Quarantine.Code.Infrastructure.Root.UI;
-using _Quarantine.Code.Infrastructure.Services.AssetsManagement;
-using _Quarantine.Code.Infrastructure.Services.EntitiesCreation;
-using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
-using _Quarantine.Code.Infrastructure.Services.SaveLoad;
-using _Quarantine.Code.Infrastructure.Services.SceneLoading;
-using _Quarantine.Code.Infrastructure.Services.UI;
 using VContainer;
 using VContainer.Unity;
+using _Quarantine.Code.Infrastructure.GameStates;
+using _Quarantine.Code.Infrastructure.Services.UI;
+using _Quarantine.Code.Infrastructure.Services.SaveLoad;
+using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
+using _Quarantine.Code.Infrastructure.Services.SceneLoading;
+using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
+using _Quarantine.Code.Infrastructure.Services.AssetsManagement;
+using _Quarantine.Code.Infrastructure.Services.EntitiesCreation;
 
 namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
 {
@@ -17,7 +16,7 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<UIRootFactory>(Lifetime.Transient);
-            builder.Register<UIRoot>(resolver => resolver.Resolve<UIRootFactory>().Create(), Lifetime.Singleton);
+            builder.Register(resolver => resolver.Resolve<UIRootFactory>().Create(), Lifetime.Singleton);
             
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.Register<IAssetsProvider, AssetsProvider>(Lifetime.Singleton);

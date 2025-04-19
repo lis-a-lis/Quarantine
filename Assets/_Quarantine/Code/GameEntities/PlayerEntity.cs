@@ -3,13 +3,14 @@ using UnityEngine;
 using _Quarantine.Code.Input;
 using _Quarantine.Code.FPSMovement;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
+using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 
 namespace _Quarantine.Code.GameEntities
 {
     [RequireComponent(typeof(PlayerInputHandler))]
     [RequireComponent(typeof(PlayerFPSController))]
     //[RequireComponent(typeof(ItemPicker))]
-    public class Player : MonoBehaviour, ISavable<PlayerSaveData>, ILoadable<PlayerSaveData>
+    public class PlayerEntity : MonoBehaviour, ISavable<PlayerSaveData>, ILoadable<PlayerSaveData>, ISaveLoadEntity
     {
         public PlayerSaveData Save()
         {
@@ -35,9 +36,27 @@ namespace _Quarantine.Code.GameEntities
 
         public void Load(PlayerSaveData data)
         {
-            transform.position = data.transform.playerPosition;
-            transform.rotation = data.transform.playerRotation;
-            GetComponentInChildren<Camera>().transform.rotation = data.transform.cameraRotation;
+            if (data == null)
+                throw new System.ArgumentNullException(nameof(data));
+            
+            Debug.Log("PLAYER LOADING/");
+            gameObject.transform.position = data.transform.playerPosition;
+            gameObject.transform.rotation = data.transform.playerRotation;
+            Debug.Log(data.transform.playerPosition);
+            Debug.Log(data.transform.playerRotation);
+            Debug.Log(data.transform.cameraRotation);
+            Debug.Log("PLAYER DATA LOADED");
+            
+            Debug.Log(gameObject.transform.position);
+            Debug.Log(gameObject.transform.rotation);
+            
+            
+            gameObject.GetComponentInChildren<Camera>().transform.localRotation = data.transform.cameraRotation;
+        }
+
+        public void AcceptSave(ISavableEntitiesVisitor visitor)
+        {
+            visitor.SaveData(this);
         }
     }
 }

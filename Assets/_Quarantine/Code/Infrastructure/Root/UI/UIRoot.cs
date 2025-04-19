@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Quarantine.Code.UI.Loading;
 using UnityEngine;
 
 namespace _Quarantine.Code.Infrastructure.Root.UI
@@ -7,13 +9,32 @@ namespace _Quarantine.Code.Infrastructure.Root.UI
     public class UIRoot : MonoBehaviour
     {
         [SerializeField] private Canvas _canvas;
+        [SerializeField] private LoadingScreen _loadingScreen;
+        
         private readonly Dictionary<string, GameObject> _existGroups = new Dictionary<string, GameObject>();
 
         public string[] Groups => _existGroups.Keys.ToArray();
+
+        private void Awake()
+        {
+            HideLoadingScreen();
+        }
+
+        public void ShowLoadingScreen()
+        {
+            _loadingScreen.Show();
+        }
+
+        public void HideLoadingScreen()
+        {
+            _loadingScreen.Hide();
+        }
         
         public void Attach(GameObject uiElement)
         {
             AttachToCanvas(uiElement);
+            
+            _loadingScreen.transform.SetAsLastSibling();
         }
 
         public void AttachToGroup(GameObject uiElement, string groupName)
@@ -22,6 +43,8 @@ namespace _Quarantine.Code.Infrastructure.Root.UI
                 CreateGroup(groupName);
 
             AttachToObjectAnchored(uiElement, _existGroups[groupName]);
+            
+            _loadingScreen.transform.SetAsLastSibling();
         }
 
         private void CreateGroup(string groupName)
@@ -40,6 +63,8 @@ namespace _Quarantine.Code.Infrastructure.Root.UI
         private void AttachToObject(GameObject child, GameObject parent)
         {
             child.transform.SetParent(parent.transform, true);
+            
+            child.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         }
         
         private void AttachToObjectAnchored(GameObject child, GameObject parent)

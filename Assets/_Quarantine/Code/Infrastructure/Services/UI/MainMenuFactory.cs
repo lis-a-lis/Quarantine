@@ -18,7 +18,7 @@ namespace _Quarantine.Code.Infrastructure.Services.UI
         public MainMenu Create()
         {
             MainMenu menu = Object.Instantiate(Resources.Load<MainMenu>(PrefabPath));
-            _uiRoot.AttachToGroup(menu.gameObject, "MENU");
+            _uiRoot.Attach(menu.gameObject);
             return menu;
         }
     }

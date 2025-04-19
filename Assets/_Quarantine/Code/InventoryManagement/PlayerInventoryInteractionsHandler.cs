@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace _Quarantine.Code.InventoryManagement
 {
-    [RequireComponent(typeof(PlayerInventory))]
+    [RequireComponent(typeof(Inventory))]
     public class PlayerInventoryInteractionsHandler : MonoBehaviour, IInventoryInteractionsHandler
     {
         [SerializeField] private Transform _playerHead;
         [SerializeField] private float _pickUpDistance = 2;
         //[SerializeField] private LayerMask _itemsLayer;
-        private PlayerInventory _playerInventory;
+        private Inventory _inventory;
 
         private void Awake()
         {
-            _playerInventory = GetComponent<PlayerInventory>();
+            _inventory = GetComponent<Inventory>();
         }
 
         public void PickUpItem()
@@ -23,14 +23,14 @@ namespace _Quarantine.Code.InventoryManagement
             
             if (hit.collider.gameObject.TryGetComponent(out Item item))
             {
-                if (_playerInventory.AddItem(item))
+                if (_inventory.AddItem(item))
                     item.gameObject.SetActive(false);
             }
         }
 
         public void DropItem()
         {
-            if (!_playerInventory.DropSelectedItem(out Item droppedItem))
+            if (!_inventory.DropSelectedItem(out Item droppedItem))
                 return;
             
             droppedItem.transform.position = _playerHead.position;
@@ -39,7 +39,7 @@ namespace _Quarantine.Code.InventoryManagement
 
         public void PlaceItem()
         {
-            if (!_playerInventory.IsItemSelected)
+            if (!_inventory.IsItemSelected)
                 return;
             
             if (Physics.Raycast(_playerHead.position, _playerHead.forward, out var hit, _pickUpDistance))
@@ -47,7 +47,7 @@ namespace _Quarantine.Code.InventoryManagement
                 if (hit.normal != Vector3.up)
                     return;
                 
-                _playerInventory.DropSelectedItem(out Item droppedItem);
+                _inventory.DropSelectedItem(out Item droppedItem);
                 droppedItem.transform.position = hit.point;
                 droppedItem.transform.rotation = Quaternion.LookRotation(hit.normal);
                 droppedItem.gameObject.SetActive(true);

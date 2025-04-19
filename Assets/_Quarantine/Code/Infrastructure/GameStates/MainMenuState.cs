@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEditor;
 using _Quarantine.Code.UI.MainMenu;
 using _Quarantine.Code.Infrastructure.Services.UI;
 using _Quarantine.Code.Infrastructure.Services.SceneLoading;
 using _Quarantine.Code.Infrastructure.GameRequests;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
+using _Quarantine.Code.Infrastructure.Root.UI;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -13,23 +15,27 @@ namespace _Quarantine.Code.Infrastructure.GameStates
     {
         private readonly IGameStateMachine _gameStateMachine;
         private readonly ISceneLoader _sceneLoader;
-        private readonly MainMenuFactory _menuFactory;
         private MainMenu _menu;
+        private UIRoot _uiRoot;
 
-        public MainMenuState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader, MainMenuFactory mainMenuFactory)
+        public MainMenuState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader, MainMenuFactory mainMenuFactory, UIRoot uiRoot)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
-            _menuFactory = mainMenuFactory;
+            _uiRoot = uiRoot;
+            _menu = mainMenuFactory.Create();
         }
 
         public void Enter()
         {
             Debug.Log("Menu State Enter");
-
-            _menu = _menuFactory.Create();
-
+            
+            _uiRoot.HideLoadingScreen();
+            _menu.gameObject.SetActive(true);
             _menu.RequestSended += HandleMainMenuRequest;
+            
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         public void Exit()
@@ -55,6 +61,9 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         private void Play()
         {
             Debug.Log("Play menu state");
+            
+            _uiRoot.ShowLoadingScreen();
+            
             _sceneLoader.LoadScene(Scenes.Gameplay,
                 () => true, 
                 (progress) => Debug.Log("LOADING"),
@@ -63,12 +72,17 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         private void OnGameplaySceneLoaded()
         {
-            _gameStateMachine.Enter<ProgressLoadingState>();
             _menu.gameObject.SetActive(false);
+            _gameStateMachine.Enter<ProgressLoadingState>();
         }
 
         private void Quit()
         {
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#else
+            Application.Quit();
+#endif            
             
         }
     }

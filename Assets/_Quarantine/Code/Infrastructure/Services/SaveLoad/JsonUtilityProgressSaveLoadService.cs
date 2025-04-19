@@ -10,7 +10,7 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
     {
         private const string SaveName = "_save_Quarantine";
 
-        private readonly GameProgress _lastLoadedLastLoadedProgress = new GameProgress();
+        private GameProgress _lastLoadedLastLoadedProgress = new GameProgress();
         
         public GameProgress LastLoadedProgress => _lastLoadedLastLoadedProgress;
         
@@ -22,6 +22,8 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
          
             await writer.WriteAsync(json);
             
+            writer.Close();
+            
             onComplete?.Invoke();
         }
 
@@ -30,15 +32,22 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
             string path = GetPathToSave(SaveName);
 
             if (!File.Exists(path))
+            {
+                Debug.LogError($"File {path} does not exist");
+                onComplete?.Invoke(new GameProgress());
                 return;
+            }
             
-            StreamReader reader = new StreamReader(path);   
+            StreamReader reader = new StreamReader(path);       
             
             string json = await reader.ReadToEndAsync();
             
-            JsonUtility.FromJsonOverwrite(json, _lastLoadedLastLoadedProgress);
+            reader.Close();
             
-            onComplete?.Invoke(_lastLoadedLastLoadedProgress);
+            _lastLoadedLastLoadedProgress = JsonUtility.FromJson<GameProgress>(json);
+            Debug.Log(_lastLoadedLastLoadedProgress);
+            Debug.Log("Progress loaded");
+            onComplete?.Invoke(LastLoadedProgress);
         }
         
         private string GetPathToSave(string saveName) =>

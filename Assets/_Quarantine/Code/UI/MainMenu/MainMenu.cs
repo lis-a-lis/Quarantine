@@ -15,7 +15,6 @@ namespace _Quarantine.Code.UI.MainMenu
         [SerializeField] private Image _background;
         [SerializeField] private MainMenuScreen _menuScreen;
         [SerializeField] private SettingsScreen _settingsScreen;
-        [SerializeField] private LoadingScreen _loadingScreen;
         [SerializeField] private float _screenChangingDuration = 0.5f;
 
         private Sequence _openSettingsAnimation;
@@ -28,11 +27,7 @@ namespace _Quarantine.Code.UI.MainMenu
             InitializeAnimations();
             _settingsScreen.gameObject.SetActive(false);
         }
-
-        private void OnDisable()
-        {
-            _loadingScreen.Hide();
-        }
+        
 
         private void InitializeAnimations()
         {

@@ -9,7 +9,6 @@ namespace _Quarantine.Code.Items.Implementation
 {
     public class BeefCan : Item, ISetupItem<FoodItemConfiguration>
     {
-        private float _durability;
         private float _calories;
 
         public void Use(IEntityEffectsHandler effectsHandler)
@@ -24,15 +23,5 @@ namespace _Quarantine.Code.Items.Implementation
 
         public void Accept(ISetupItemVisitor visitor) =>
             visitor.Visit(this);
-    }
-
-    public class RatioBox : Item
-    {
-        public void AddItem(Item item)
-        {
-            
-        }
-        
-        
     }
 }

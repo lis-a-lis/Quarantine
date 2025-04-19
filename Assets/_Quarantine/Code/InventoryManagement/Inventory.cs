@@ -9,7 +9,7 @@ using UnityEditor.PackageManager;
 
 namespace _Quarantine.Code.InventoryManagement
 {
-    public class PlayerInventory : MonoBehaviour,
+    public class Inventory : MonoBehaviour,
         ISavable<PlayerInventorySaveData>, ILoadable<PlayerInventorySaveData> 
     {
         [SerializeField] private int _slotsAmount = 5;
