@@ -10,6 +10,8 @@ using _Quarantine.Code.Infrastructure.Services.EntitiesCreation;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
 using _Quarantine.Code.Infrastructure.Services.SaveLoad;
+using _Quarantine.Code.Items.Generation;
+using _Quarantine.Code.Items.Implementation;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -39,9 +41,21 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             _setupTasks = new List<Func<UniTask>>()
             {
                 SetupPlayer,
-                
                 LoadPlayerData,
+                CreateItemsGenerator,
+                SetupItems,
             };
+        }
+
+        private async UniTask CreateItemsGenerator()
+        {
+            await UniTask.WaitForEndOfFrame();
+
+            var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
+
+            generator.transform.position += Vector3.up * 4;
+            
+            generator.Initialize(_itemsDatabase);
         }
 
         private void ClearExistData()
@@ -81,6 +95,17 @@ namespace _Quarantine.Code.Infrastructure.GameStates
                 await UniTask.WaitUntil();
                 */
 
+            }
+        }
+
+        private async UniTask SetupItems()
+        {
+            await UniTask.WaitForEndOfFrame();
+            
+            for (int i = 0; i < _progress.items.Count; i++)
+            {
+                var item = _itemsDatabase.CreateItemInstance(_progress.items[i].id);
+                item.Load(_progress.items[i]);
             }
         }
         

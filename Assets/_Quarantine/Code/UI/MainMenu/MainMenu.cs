@@ -1,12 +1,9 @@
 using System;
-using _Quarantine.Code.Infrastructure.GameRequests;
-using _Quarantine.Code.UI.Loading;
-using _Quarantine.Code.UI.MainMenu.Screens;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
-using _Quarantine.Code.Infrastructure;
+using _Quarantine.Code.UI.MainMenu.Screens;
+using _Quarantine.Code.Infrastructure.GameRequests;
 
 namespace _Quarantine.Code.UI.MainMenu
 {

@@ -17,12 +17,8 @@ namespace _Quarantine.Code.Items.Configuration.Configs
         
     }
 
-    public class MilitaryBox : ItemConfiguration
-    {
-        
-    }
-
-    public class RubbishBagItemConfiguration : ItemConfiguration
+    [CreateAssetMenu(menuName = "Create RatioBox", fileName = "RatioBox", order = 0)]
+    public class RatioBox : ItemConfiguration
     {
         
     }

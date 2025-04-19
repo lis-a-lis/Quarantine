@@ -24,12 +24,16 @@ namespace _Quarantine.Code.Items.Implementation
 
         public ItemSaveData Save()
         {
-            return new ItemSaveData(_id, _durability, true, transform.position, transform.rotation);
+            
+            Debug.Log($"Saving item {_id}");
+            return new ItemSaveData(_id, _durability, false, transform.position, transform.rotation);
         }
 
         public void Load(ItemSaveData data)
         {
-            
+            transform.position = data.position;
+            transform.rotation = data.rotation;
+            _durability = data.durability;
         }
     }
 }

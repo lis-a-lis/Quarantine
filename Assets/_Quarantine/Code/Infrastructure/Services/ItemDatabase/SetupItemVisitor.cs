@@ -28,6 +28,11 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
             Setup(cigarettes);
         }
 
+        public void Visit(ISetupItem<RubbishBagItemConfiguration> rubbishBag)
+        {
+            Setup(rubbishBag);
+        }
+
         private void Setup<TItemConfiguration>(ISetupItem<TItemConfiguration> item)
             where TItemConfiguration : ItemConfiguration
         {

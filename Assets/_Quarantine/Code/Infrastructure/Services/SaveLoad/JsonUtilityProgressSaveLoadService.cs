@@ -33,7 +33,7 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
 
             if (!File.Exists(path))
             {
-                Debug.LogError($"File {path} does not exist");
+                Debug.Log($"File {path} does not exist");
                 onComplete?.Invoke(new GameProgress());
                 return;
             }

@@ -62,7 +62,7 @@ namespace _Quarantine.Code.Infrastructure.Root.UI
         
         private void AttachToObject(GameObject child, GameObject parent)
         {
-            child.transform.SetParent(parent.transform, true);
+            child.transform.SetParent(parent.transform, false);
             
             child.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         }

@@ -26,10 +26,14 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
             
             List<ItemDatabaseTableCell> table = Resources.Load<ItemDatabaseTable>(PathToItemsTable).Cells;
 
+            Debug.Log(table.Count);
+            
             foreach (var cell in table)
             {
+                
+                Debug.Log(cell.ID);
                 _database.Add(cell.ID, cell);
-                _itemsIDByType.Add(cell.GetType(), cell.ID);
+                _itemsIDByType.Add(cell.Configuration.GetType(), cell.ID);
             }
         }
         
@@ -76,12 +80,12 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
             if (!_database.TryGetValue(itemID, out var cell))
                 throw new KeyNotFoundException($"Item with ID {itemID} not found");
 
-            Item instance = Object.Instantiate(cell.Prefab);
+            Item instance = Object.Instantiate(_database[itemID].Prefab);
             
-            instance.Setup(GetItemConfiguration<ItemConfiguration>(itemID));
+            instance.Setup(_database[itemID].Configuration);
             
             if (instance is not IVisitableItem)
-                throw new KeyNotFoundException($"Item with ID {itemID} not found");
+                throw new KeyNotFoundException($"Item with ID {itemID} is not visitable");
             
             ((IVisitableItem)instance).Accept(_setupItemVisitor);
             

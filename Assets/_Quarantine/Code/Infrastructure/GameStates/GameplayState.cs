@@ -3,9 +3,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
+using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.Root.UI;
 using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 using _Quarantine.Code.Infrastructure.Services.SceneLoading;
+using _Quarantine.Code.Items.Implementation;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -16,8 +18,8 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         private readonly IGameStateMachine _gameStateMachine;
         private readonly ISceneLoader _sceneLoader;
         private readonly IProgressSaveLoadService _progressSaveLoadService;
-        private UIRoot _uiRoot;
         private List<ISaveLoadEntity> _entities;
+        private UIRoot _uiRoot;
 
         public GameplayState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader,
             IProgressSaveLoadService progressSaveLoadService, UIRoot uiRoot)
@@ -86,28 +88,43 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             
                 _uiRoot.ShowLoadingScreen();
                 
+                SaveProgress();
+                
                 _sceneLoader.LoadScene(Scenes.Menu, 
                     () => true,
                     f => Debug.Log("back to menu"),
                     () => _gameStateMachine.Enter<MainMenuState>());
             }
+        }
 
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
+        private void SaveProgress()
+        {
+            Debug.Log("Save progress..");
+            
+            ISavableEntitiesVisitor visitor = new SavableEntitiesVisitor();
+
+            foreach (var entity in _entities)
             {
-                Debug.Log("Save progress..");
-            
-                ISavableEntitiesVisitor visitor = new SavableEntitiesVisitor();
-
-                foreach (var entity in _entities)
-                {
-                    entity.AcceptSave(visitor);
-                }
-                
-                Debug.Log(visitor.GameProgress.player.transform.playerPosition);
-            
-                _progressSaveLoadService.Save(visitor.GameProgress,
-                    () => Debug.Log("Progress saved!")).Forget();
+                entity.AcceptSave(visitor);
             }
+            
+            List<Item> items = new List<Item>();
+
+            items.AddRange(Object.FindObjectsByType<Item>(FindObjectsSortMode.None));
+
+            var itemsData = new List<ItemSaveData>();
+
+            foreach (var item in items)
+            {
+                itemsData.Add(item.Save());
+            }
+            
+            visitor.GameProgress.items = itemsData;
+                
+            Debug.Log(visitor.GameProgress.player.transform.playerPosition);
+            
+            _progressSaveLoadService.Save(visitor.GameProgress,
+                () => Debug.Log("Progress saved!")).Forget();
         }
     }
 }

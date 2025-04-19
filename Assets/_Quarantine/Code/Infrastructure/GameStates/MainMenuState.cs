@@ -24,6 +24,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             _sceneLoader = sceneLoader;
             _uiRoot = uiRoot;
             _menu = mainMenuFactory.Create();
+            _menu.gameObject.SetActive(false);
         }
 
         public void Enter()
@@ -41,6 +42,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         public void Exit()
         {
             _menu.RequestSended -= HandleMainMenuRequest;
+            _menu.gameObject.SetActive(false);
         }
 
         private void HandleMainMenuRequest(MainMenuRequest request)

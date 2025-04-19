@@ -1,11 +1,9 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using _Quarantine.Code.Items.Implementation;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
-using _Quarantine.Code.InventorySystem.Items.Database;
-using _Quarantine.Code.Items.Implementation;
-using UnityEditor.PackageManager;
 
 namespace _Quarantine.Code.InventoryManagement
 {
