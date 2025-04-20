@@ -82,7 +82,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         public void Update()
         {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.M))
             {
                 Debug.Log("OnMenuButtonPressed");
             

@@ -1,5 +1,5 @@
-using _Quarantine.Code.Items.Implementation;
 using UnityEngine;
+using _Quarantine.Code.Items.Implementation;
 
 namespace _Quarantine.Code.InventoryManagement
 {
@@ -16,13 +16,20 @@ namespace _Quarantine.Code.InventoryManagement
             _inventory = GetComponent<Inventory>();
         }
 
+        public void SelectSlot(int slotIndex)
+        {
+            _inventory.SelectSlot(slotIndex);
+        }
+
         public void PickUpItem()
         {
-            if (!Physics.Raycast(_playerHead.position, _playerHead.forward, out var hit, _pickUpDistance))
+            if (!Physics.Raycast(_playerHead.position + _playerHead.forward * 0.7f, 
+                    _playerHead.forward, out var hit, _pickUpDistance))
                 return;
             
             if (hit.collider.gameObject.TryGetComponent(out Item item))
             {
+                Debug.Log($"picked up item {item.Id}");
                 if (_inventory.AddItem(item))
                     item.gameObject.SetActive(false);
             }
@@ -33,13 +40,16 @@ namespace _Quarantine.Code.InventoryManagement
             if (!_inventory.DropSelectedItem(out Item droppedItem))
                 return;
             
-            droppedItem.transform.position = _playerHead.position;
+            Rigidbody itemRigidbody = droppedItem.GetComponent<Rigidbody>();
+            droppedItem.transform.SetParent(null);
+            itemRigidbody.isKinematic = false;
+            itemRigidbody.AddForce(_playerHead.forward * 10, ForceMode.Impulse);
             droppedItem.gameObject.SetActive(true);
         }
 
         public void PlaceItem()
         {
-            if (!_inventory.IsItemSelected)
+            if (!_inventory.IsSlotSelected)
                 return;
             
             if (Physics.Raycast(_playerHead.position, _playerHead.forward, out var hit, _pickUpDistance))

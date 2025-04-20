@@ -29,6 +29,7 @@ namespace _Quarantine.Code.FPSMovement
         private Vector3 _cameraRotation;
         
         public Quaternion CameraRotation => _camera.transform.rotation;
+        public bool IsMoving => _characterController.velocity != Vector3.zero;
 
         private void Awake()
         {

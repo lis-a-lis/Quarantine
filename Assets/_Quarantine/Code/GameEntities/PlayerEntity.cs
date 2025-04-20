@@ -4,6 +4,7 @@ using _Quarantine.Code.Input;
 using _Quarantine.Code.FPSMovement;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.Services.SaveLoad;
+using _Quarantine.Code.InventoryManagement;
 
 namespace _Quarantine.Code.GameEntities
 {
@@ -19,8 +20,11 @@ namespace _Quarantine.Code.GameEntities
                 gameObject.transform.rotation,
                 GetComponent<PlayerFPSController>().CameraRotation);
             
+            Inventory playerInventory = gameObject.GetComponent<Inventory>();
+            
+            var slotsData = playerInventory.Save().slots;
             PlayerInventorySaveData inventory = new PlayerInventorySaveData(
-                -1, new List<ItemSaveData>());
+                playerInventory.SelectedSlotIndex, slotsData);
             
             PlayerStatsSaveData stats = new PlayerStatsSaveData(
                 100,

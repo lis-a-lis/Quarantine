@@ -23,6 +23,7 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
             builder.Register<IItemDatabaseService, ItemDatabaseService>(Lifetime.Singleton);
             builder.Register<IProgressSaveLoadService, JsonUtilityProgressSaveLoadService>(Lifetime.Singleton);
             builder.Register<MainMenuFactory>(Lifetime.Transient);
+            builder.Register<IHUDFactory, HUDFactory>(Lifetime.Transient);
             builder.Register<IEntitiesFactory, EntitiesFactory>(Lifetime.Transient);
             
             builder.Register<GameStateMachine>(Lifetime.Singleton).AsImplementedInterfaces();

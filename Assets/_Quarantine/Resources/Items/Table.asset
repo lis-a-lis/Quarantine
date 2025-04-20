@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Table
   m_EditorClassIdentifier: 
   _cells:
-  - _name: Rubbish
+  - _name: Rubbish Bag
     _description: 
-    _icon: {fileID: 0}
+    _icon: {fileID: 21300000, guid: ba5330febfe613447a389c85036fb6cb, type: 3}
     _configuration: {fileID: 11400000, guid: e0d5a2d410e9a3f4fabd68a07f14ae8b, type: 2}
     _prefab: {fileID: 2637065334383273304, guid: dd8fc85ff6938b14e8ea94409d8a7304, type: 3}

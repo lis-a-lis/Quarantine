@@ -1,15 +1,18 @@
 using System;
 using System.IO;
-using _Quarantine.Code.Infrastructure.PersistentProgress;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using _Quarantine.Code.Infrastructure.PersistentProgress;
 
 namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
 {
+    public static class SaveLoadConstants   
+    {
+        public const string SaveName = "_save_Quarantine";
+    }
+    
     public class JsonUtilityProgressSaveLoadService : IProgressSaveLoadService
     {
-        private const string SaveName = "_save_Quarantine";
-
         private GameProgress _lastLoadedLastLoadedProgress = new GameProgress();
         
         public GameProgress LastLoadedProgress => _lastLoadedLastLoadedProgress;
@@ -18,7 +21,7 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
         {
             string json = JsonUtility.ToJson(progress);
 
-            StreamWriter writer = new StreamWriter(GetPathToSave(SaveName), false);
+            StreamWriter writer = new StreamWriter(GetPathToSave(SaveLoadConstants.SaveName), false);
          
             await writer.WriteAsync(json);
             
@@ -29,7 +32,7 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
 
         public async UniTaskVoid Load(Action<GameProgress> onComplete)
         {
-            string path = GetPathToSave(SaveName);
+            string path = GetPathToSave(SaveLoadConstants.SaveName);
 
             if (!File.Exists(path))
             {

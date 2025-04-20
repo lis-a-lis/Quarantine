@@ -96,9 +96,54 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Save",
+                    "name": "SelectSlot1",
                     "type": "Button",
-                    "id": "ba0dfc5d-e94d-4930-ada5-5442ae4912cd",
+                    "id": "18bc344f-f1f8-4bfa-a614-130c964a7a8b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSlot2",
+                    "type": "Button",
+                    "id": "5ee2d7dd-e545-4c80-ac5a-83a140e549c1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSlot3",
+                    "type": "Button",
+                    "id": "bf4085f9-1ad3-4684-8350-12c4be3ad7a2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSlot4",
+                    "type": "Button",
+                    "id": "3a9d0309-c999-4e24-a487-cb305f4b2821",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSlot5",
+                    "type": "Button",
+                    "id": "0cd23e93-ac90-42d2-a418-5b08c50733ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DropItem",
+                    "type": "Button",
+                    "id": "4e726335-f6db-4fcf-aaf7-ca5cb8a0ec46",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -504,12 +549,67 @@
                 },
                 {
                     "name": "",
-                    "id": "ef8354a9-02de-477c-a32c-e67d24e94eae",
+                    "id": "085c3c62-e58f-423c-b681-00d2a99ee1ca",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04f59106-d4d5-4100-a53c-91eeb9ad49e6",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e98059c-9e7a-462e-aaca-02544d11d3f0",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "792f5e63-89e2-4630-af4a-0359d589c76a",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bc91825-e4b7-4e66-8c06-f4139847c637",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae63e791-3f89-4fe2-a7ec-8782aabc1199",
                     "path": "<Keyboard>/g",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Save",
+                    "action": "DropItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
