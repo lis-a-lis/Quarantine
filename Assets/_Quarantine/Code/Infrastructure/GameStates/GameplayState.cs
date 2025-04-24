@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
@@ -8,6 +9,7 @@ using _Quarantine.Code.Infrastructure.Root.UI;
 using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 using _Quarantine.Code.Infrastructure.Services.SceneLoading;
 using _Quarantine.Code.Items.Implementation;
+using _Quarantine.Code.UI.HUD.PlayerInventory;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -89,6 +91,12 @@ namespace _Quarantine.Code.Infrastructure.GameStates
                 _uiRoot.ShowLoadingScreen();
                 
                 SaveProgress();
+
+                var hud = Object.FindFirstObjectByType<InventoryHUDPresenter>();
+                
+                Debug.Log(hud);
+                
+                Object.Destroy(hud.gameObject);
                 
                 _sceneLoader.LoadScene(Scenes.Menu, 
                     () => true,

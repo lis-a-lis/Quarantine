@@ -30,6 +30,7 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
             builder.Register<MainMenuState>(Lifetime.Singleton);
             builder.Register<GameplayState>(Lifetime.Singleton);
             builder.Register<SetupState>(Lifetime.Singleton);
+            builder.Register<LinearSetupState>(Lifetime.Singleton);
             builder.Register<ProgressLoadingState>(Lifetime.Singleton);
         }
     }

@@ -38,7 +38,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         {
             Debug.Log("Progress loaded");
             
-            _gameStateMachine.Enter<SetupState, GameProgress>(progress);
+            _gameStateMachine.Enter<LinearSetupState, GameProgress>(progress);
         }
     }
 }

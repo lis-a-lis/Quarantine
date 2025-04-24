@@ -45,7 +45,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             _setupTasks = new List<Func<UniTask>>()
             {
                 SetupPlayer,
-                LoadPlayerData,
+                SetupPlayerUseLoadedData,
                 CreateItemsGenerator,
                 SetupItems,
                 CreateInventoryHUD,
@@ -120,7 +120,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             }
         }
         
-        private async UniTask LoadPlayerData()
+        private async UniTask SetupPlayerUseLoadedData()
         {
             await UniTask.WaitForEndOfFrame();
             
@@ -128,13 +128,13 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             PlayerInventory inventory = _player.GetComponent<PlayerInventory>();
             inventory.Setup(_itemsDatabase);
             inventory.Load(_progress.player.inventory);
-            _saveLoadEntities.Add(_player);
-            _player.GetComponent<PlayerInventoryInteractionsHandler>().Initialize(inventory.SelectedSlotIndex);
+            _player.GetComponent<PlayerInventoryInteractionsHandler>().Initialize();
         }
 
         private async UniTask SetupPlayer()
         {
             _player = await _entitiesFactory.CreatePlayer();
+            _saveLoadEntities.Add(_player);
         }
     }
 }

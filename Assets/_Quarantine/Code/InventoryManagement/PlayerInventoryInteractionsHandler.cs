@@ -13,15 +13,14 @@ namespace _Quarantine.Code.InventoryManagement
         [SerializeField] private float _slotSelectionDuration = 1f;
         
         private PlayerInventory _inventory;
-
-        private bool _isSwitching = false;
+        private bool _isSwitching;
 
         private void Awake()
         {
             _inventory = GetComponent<PlayerInventory>();
         }
 
-        public void Initialize(int slotIndex)
+        public void Initialize()
         {
             if (_inventory.IsSelectedSlotFilled)
             {
