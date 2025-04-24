@@ -32,6 +32,11 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
         {
             Setup(rubbishBag);
         }
+        
+        public void Visit(ISetupItem<BoxItemConfiguration> box)
+        {
+            Setup(box);
+        }
 
         private void Setup<TItemConfiguration>(ISetupItem<TItemConfiguration> item)
             where TItemConfiguration : ItemConfiguration

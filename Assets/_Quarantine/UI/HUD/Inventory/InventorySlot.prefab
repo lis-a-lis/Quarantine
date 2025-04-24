@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 4184358086735033122}
   - component: {fileID: 549056918458271933}
   - component: {fileID: 1014525672907994554}
-  - component: {fileID: 2305623363735106457}
+  - component: {fileID: 6382411851616592407}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.4569496, b: 0, a: 1}
+  m_Color: {r: 0.11406088, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2305623363735106457
+--- !u!114 &6382411851616592407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,11 +237,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8407656440975526439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20f7e25f227e49b6a2c7b966ab859b29, type: 3}
+  m_Script: {fileID: 11500000, guid: 2faedcd8ca6345f8ab6046e65a1bdd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slotIcon: {fileID: 1014525672907994554}
+  _slotBorders: {fileID: 1014525672907994554}
   _itemIcon: {fileID: 4730679602401096209}
-  _durabilitySliderIcon: {fileID: 178526294094934131}
-  _selectedColor: {r: 1, g: 0.45882356, b: 0, a: 1}
+  _durabilitySlider: {fileID: 178526294094934131}
+  _selectedColor: {r: 0.8792453, g: 0, b: 0, a: 1}
   _unselectedColor: {r: 1, g: 1, b: 1, a: 1}

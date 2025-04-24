@@ -36,8 +36,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         private void OnProgressLoaded(GameProgress progress)
         {
-            if (progress == null)
-                Debug.Log("Progress is null!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Debug.Log("Progress loaded");
             
             _gameStateMachine.Enter<SetupState, GameProgress>(progress);
         }

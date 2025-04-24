@@ -1,16 +1,15 @@
-using System.Collections.Generic;
 using UnityEngine;
 using _Quarantine.Code.Input;
 using _Quarantine.Code.FPSMovement;
-using _Quarantine.Code.Infrastructure.PersistentProgress;
-using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 using _Quarantine.Code.InventoryManagement;
+using _Quarantine.Code.Infrastructure.Services.SaveLoad;
+using _Quarantine.Code.Infrastructure.PersistentProgress;
 
 namespace _Quarantine.Code.GameEntities
 {
     [RequireComponent(typeof(PlayerInputHandler))]
     [RequireComponent(typeof(PlayerFPSController))]
-    //[RequireComponent(typeof(ItemPicker))]
+    [RequireComponent(typeof(PlayerInventory))]
     public class PlayerEntity : MonoBehaviour, ISavable<PlayerSaveData>, ILoadable<PlayerSaveData>, ISaveLoadEntity
     {
         public PlayerSaveData Save()
@@ -20,7 +19,7 @@ namespace _Quarantine.Code.GameEntities
                 gameObject.transform.rotation,
                 GetComponent<PlayerFPSController>().CameraRotation);
             
-            Inventory playerInventory = gameObject.GetComponent<Inventory>();
+            PlayerInventory playerInventory = gameObject.GetComponent<PlayerInventory>();
             
             var slotsData = playerInventory.Save().slots;
             PlayerInventorySaveData inventory = new PlayerInventorySaveData(

@@ -1,9 +1,9 @@
-using _Quarantine.Code.UI.HUD.InventoryHUD;
+using _Quarantine.Code.UI.HUD.PlayerInventory;
 
 namespace _Quarantine.Code.Infrastructure.Services.UI
 {
     public interface IHUDFactory
     {
-        public PlayerInventoryHUDPresenter CreateInventoryHUD();
+        public InventoryHUDPresenter CreateInventoryHUD();
     }
 }

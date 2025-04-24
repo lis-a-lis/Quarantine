@@ -16,10 +16,4 @@ namespace _Quarantine.Code.Items.Configuration.Configs
     {
         
     }
-
-    [CreateAssetMenu(menuName = "Create RatioBox", fileName = "RatioBox", order = 0)]
-    public class RatioBox : ItemConfiguration
-    {
-        
-    }
 }

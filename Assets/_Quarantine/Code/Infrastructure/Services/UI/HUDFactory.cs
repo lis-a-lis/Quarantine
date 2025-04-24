@@ -1,7 +1,7 @@
-using _Quarantine.Code.Infrastructure.Root.UI;
-using _Quarantine.Code.Infrastructure.Services.AssetsManagement;
-using _Quarantine.Code.UI.HUD.InventoryHUD;
 using UnityEngine;
+using _Quarantine.Code.Infrastructure.Root.UI;
+using _Quarantine.Code.UI.HUD.PlayerInventory;
+using _Quarantine.Code.Infrastructure.Services.AssetsManagement;
 
 namespace _Quarantine.Code.Infrastructure.Services.UI
 {
@@ -18,12 +18,12 @@ namespace _Quarantine.Code.Infrastructure.Services.UI
             _uiRoot = uiRoot;
         }
 
-        public PlayerInventoryHUDPresenter CreateInventoryHUD()
+        public InventoryHUDPresenter CreateInventoryHUD()
         {
-            PlayerInventoryHUDPresenter prefab = 
-                _assetsProvider.LoadPrefab<PlayerInventoryHUDPresenter>(InventoryHUDPrefabPath);
+            InventoryHUDPresenter prefab = 
+                _assetsProvider.LoadPrefab<InventoryHUDPresenter>(InventoryHUDPrefabPath);
             
-            PlayerInventoryHUDPresenter inventoryHUD = Object.Instantiate(prefab);
+            InventoryHUDPresenter inventoryHUD = Object.Instantiate(prefab);
             
             _uiRoot.Attach(inventoryHUD.gameObject);
 

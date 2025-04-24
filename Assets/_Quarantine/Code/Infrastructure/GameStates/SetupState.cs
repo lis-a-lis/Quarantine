@@ -13,7 +13,7 @@ using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 using _Quarantine.Code.Infrastructure.Services.UI;
 using _Quarantine.Code.Items.Generation;
 using _Quarantine.Code.Items.Implementation;
-using _Quarantine.Code.UI.HUD.InventoryHUD;
+using _Quarantine.Code.UI.HUD.PlayerInventory;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -56,9 +56,9 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         {
             await UniTask.WaitForEndOfFrame();
             
-            PlayerInventoryHUDPresenter inventoryHUD = _hudFactory.CreateInventoryHUD();
+            InventoryHUDPresenter inventoryHUD = _hudFactory.CreateInventoryHUD();
             
-            inventoryHUD.Initialize(_player.GetComponent<IObservableInventory>(), _itemsDatabase);
+            inventoryHUD.Initialize(_player.GetComponent<IObservablePlayerInventory>(), _itemsDatabase);
         }
 
         private async UniTask CreateItemsGenerator()
@@ -66,10 +66,13 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             await UniTask.WaitForEndOfFrame();
 
             var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
+            var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
 
             generator.transform.position += Vector3.up * 4;
+            boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
             
             generator.Initialize(_itemsDatabase);
+            boxGenerator.Initialize(_itemsDatabase);
         }
 
         private void ClearExistData()
@@ -122,10 +125,11 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             await UniTask.WaitForEndOfFrame();
             
             _player.Load(_progress.player);
-            Inventory inventory = _player.GetComponent<Inventory>();
+            PlayerInventory inventory = _player.GetComponent<PlayerInventory>();
             inventory.Setup(_itemsDatabase);
             inventory.Load(_progress.player.inventory);
             _saveLoadEntities.Add(_player);
+            _player.GetComponent<PlayerInventoryInteractionsHandler>().Initialize(inventory.SelectedSlotIndex);
         }
 
         private async UniTask SetupPlayer()

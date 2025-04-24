@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
 
@@ -11,15 +12,9 @@ namespace _Quarantine.Code.Infrastructure.GameBehaviourStateMachine
         
         private IExitState _activeState;
 
-        public GameStateMachine()
-        {
-            
-        }
-
         public void AddState<TState>(IExitState state)
         {
-            
-            Debug.Log($"Adding state: {typeof(TState).Name}");
+            Debug.Log($"{nameof(GameStateMachine)}: {typeof(TState).Name} state added");
             _states.Add(typeof(TState), state);
         }
 
@@ -41,10 +36,14 @@ namespace _Quarantine.Code.Infrastructure.GameBehaviourStateMachine
 
         private TState ChangeState<TState>() where TState : class, IExitState
         {
+            Debug.Log($"{nameof(GameStateMachine)}: " +
+                      $"{(_activeState == null ? string.Empty : _activeState.GetType().Name + " exited\n")}" +
+                      $"{typeof(TState).Name} entered");
+            
             _activeState?.Exit();
             TState state = GetState<TState>();
             _activeState = state;
-
+            
             return state;
         }
 
