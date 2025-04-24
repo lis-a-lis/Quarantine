@@ -38,7 +38,16 @@ namespace _Quarantine.Code.InventoryManagement
             }
         }
 
-        public bool IsSelectedSlotEmpty => !IsSelectedSlotFilled;
+        public bool IsSelectedSlotEmpty
+        {
+            get
+            {
+                if (_selectedSlotIndex == UnselectedSlotIndex)
+                    return false;
+                
+                return _slots[_selectedSlotIndex].IsEmpty;
+            }
+        }
         
         private void Awake()
         {
@@ -89,7 +98,9 @@ namespace _Quarantine.Code.InventoryManagement
             }
             else
             {
-                SlotUnselected?.Invoke(_selectedSlotIndex);
+                if (_selectedSlotIndex != UnselectedSlotIndex)
+                    SlotUnselected?.Invoke(_selectedSlotIndex);
+                
                 _selectedSlotIndex = slotIndex;
                 SlotSelected?.Invoke(_selectedSlotIndex);
             }

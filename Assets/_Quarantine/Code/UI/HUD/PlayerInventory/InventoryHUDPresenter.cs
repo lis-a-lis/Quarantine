@@ -26,6 +26,7 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
             _inventory.SlotUnselected += OnSlotUnselected;
 
             CreateSlotViews();
+            SetupSlotViews();
         }
 
         private void CreateSlotViews()
@@ -33,9 +34,22 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
             for (int i = 0; i < _inventory.SlotsAmount; i++)
             {
                 _slotViews.Add(Instantiate(_slotViewPrefab, _inventorySlotViewsContainer));
-                _slotViews[i].ClearView();
+                _slotViews[i].InitializeView();
             }
         }
+
+        private void SetupSlotViews()
+        {
+            for (int i = 0; i < _slotViews.Count; i++)
+            {
+                if (_inventory.TryGetItemIdBySlotIndex(i, out var itemId))
+                    _slotViews[i].SetItemView(LoadItemIcon(i));
+            }
+            
+            if (_inventory.IsSlotSelected)
+                _slotViews[_inventory.SelectedSlotIndex].SetSlotSelected();
+        }
+        
         private void OnDestroy()
         {
             _inventory.ItemAdded -= OnItemAdded;
@@ -51,7 +65,7 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
 
         private void OnSlotUnselected(int slotIndex)
         {
-            if (_inventory.IsSlotSelected)
+            if (slotIndex != -1)
                 _slotViews[slotIndex].SetSlotUnselected();
         }
 
@@ -63,8 +77,14 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
         private void OnItemAdded(int slotIndex)
         {
             Debug.Log(slotIndex);
-            _inventory.TryGetItemIdBySlotIndex(slotIndex, out string id);
-            _slotViews[slotIndex].SetItemView(_itemDatabaseService.GetItemIcon(id));
+            _slotViews[slotIndex].SetItemView(LoadItemIcon(slotIndex));  
+        }
+
+        private Sprite LoadItemIcon(int itemSlotIndex)
+        {
+            _inventory.TryGetItemIdBySlotIndex(itemSlotIndex, out string id);
+            
+            return _itemDatabaseService.GetItemIcon(id);
         }
     }
 }

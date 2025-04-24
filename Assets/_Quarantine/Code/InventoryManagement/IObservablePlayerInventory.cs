@@ -13,6 +13,7 @@ namespace _Quarantine.Code.InventoryManagement
         public bool IsSlotSelected {get; }
         public bool IsSelectedSlotFilled { get; }
         public bool IsSelectedSlotEmpty { get; }
+        public int SelectedSlotIndex { get; }
         public bool TryGetItemIdBySlotIndex(int slotIndex, out string id);
     }
 }

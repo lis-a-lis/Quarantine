@@ -35,7 +35,7 @@ namespace _Quarantine.Code.InventoryManagement
         {
             _isSwitching = true;
 
-            if (_inventory.IsSelectedSlotFilled)
+            if (_playerHands.IsItemInHands)
             {
                 _playerHands.RunItemDisappearAnimation(_slotSelectionDuration);
                 
@@ -87,6 +87,8 @@ namespace _Quarantine.Code.InventoryManagement
             
             if (hit.collider.gameObject.TryGetComponent(out Item item))
             {
+                bool isItemPickedToSelectedSlot = _inventory.IsSelectedSlotEmpty;
+                
                 Debug.Log($"picked up item {item.Id}");
                 if (_inventory.AddItem(item))
                 {
@@ -95,7 +97,9 @@ namespace _Quarantine.Code.InventoryManagement
                     item.transform.SetParent(transform);
                     item.transform.localPosition = Vector3.zero;
                     item.transform.localRotation = Quaternion.identity;
-                    AppearPickedItem().Forget();
+                    
+                    if (isItemPickedToSelectedSlot && _inventory.IsSelectedSlotFilled)
+                        AppearPickedItem().Forget();
                 }
             }
         }
@@ -103,6 +107,9 @@ namespace _Quarantine.Code.InventoryManagement
         public void DropItem()
         {
             if (_isSwitching)
+                return;
+            
+            if (!_playerHands.IsItemInHands)
                 return;
             
             if (!_inventory.DropSelectedItem(out Item droppedItem))

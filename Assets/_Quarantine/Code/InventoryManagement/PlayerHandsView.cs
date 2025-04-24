@@ -17,6 +17,7 @@ namespace _Quarantine.Code.InventoryManagement
         private Sequence _appearAnimation;
         private Sequence _disappearAnimation;
         
+        public bool IsItemInHands => _itemInHands != null;
 
         private void Awake()
         {
