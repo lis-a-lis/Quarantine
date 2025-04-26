@@ -18,3 +18,8 @@ MonoBehaviour:
     _icon: {fileID: 21300000, guid: ba5330febfe613447a389c85036fb6cb, type: 3}
     _configuration: {fileID: 11400000, guid: e0d5a2d410e9a3f4fabd68a07f14ae8b, type: 2}
     _prefab: {fileID: 2637065334383273304, guid: dd8fc85ff6938b14e8ea94409d8a7304, type: 3}
+  - _name: Box
+    _description: 
+    _icon: {fileID: 21300000, guid: 827500e5f92487648a6c4fd6688132d6, type: 3}
+    _configuration: {fileID: 11400000, guid: 0ae1bfaa41f4cac44817487ce735b7e7, type: 2}
+    _prefab: {fileID: 6100716237685445459, guid: c88b9437a5ed27247b5f570978e2ee98, type: 3}

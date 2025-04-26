@@ -24,9 +24,8 @@ namespace _Quarantine.Code.Items.Implementation
 
         public ItemSaveData Save()
         {
-            
             Debug.Log($"Saving item {_id}");
-            return new ItemSaveData(_id, _durability, false, transform.position, transform.rotation);
+            return new ItemSaveData(_id, _durability, transform.position, transform.rotation);
         }
 
         public void Load(ItemSaveData data)

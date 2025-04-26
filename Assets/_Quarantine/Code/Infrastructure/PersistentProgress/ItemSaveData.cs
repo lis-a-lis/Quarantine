@@ -8,15 +8,13 @@ namespace _Quarantine.Code.Infrastructure.PersistentProgress
     {
         public string id;
         public float durability;
-        public bool isEquipped;
         public Vector3 position;
         public Quaternion rotation;
 
-        public ItemSaveData(string id, float durability, bool isEquipped, Vector3 position, Quaternion rotation)
+        public ItemSaveData(string id, float durability, Vector3 position, Quaternion rotation)
         {
             this.id = id;
             this.durability = durability;
-            this.isEquipped = isEquipped;
             this.position = position;
             this.rotation = rotation;
         }
