@@ -291,10 +291,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab5182477384e478f668c5f125a6e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemsLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   _playerHead: {fileID: 1499998072239201087}
   _playerHands: {fileID: 2213978993786203567}
   _pickUpDistance: 2
   _slotSelectionDuration: 0.4
+  _throwForceMultiplier: 5
 --- !u!114 &2512076879044161332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,10 +325,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemHolder: {fileID: 6819033788518465567}
-  _animationStart: {fileID: 5040041226551070669}
-  _animationEnd: {fileID: 4510677262646946072}
-  _itemMovingPathLength: 0.7
-  _itemShakingOffset: 0.1
+  _positionInCameraVisibility: {fileID: 4510677262646946072}
+  _positionOutsideCameraVisibility: {fileID: 5040041226551070669}
 --- !u!1 &5984712391462674773
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,10 +1,11 @@
-using _Quarantine.Code.Infrastructure.PersistentProgress;
 using UnityEngine;
 using _Quarantine.Code.Items.Configuration;
+using _Quarantine.Code.Infrastructure.Services.SaveLoad;
+using _Quarantine.Code.Infrastructure.PersistentProgress;
 
 namespace _Quarantine.Code.Items.Implementation
 {
-    public class Item : MonoBehaviour, ISavable<ItemSaveData>, ILoadable<ItemSaveData>
+    public class Item : MonoBehaviour, ISavable<ItemSaveData>, ILoadable<ItemSaveData>, ISavableEntity
     {
         private string _id;
         private float _durability;
@@ -22,17 +23,19 @@ namespace _Quarantine.Code.Items.Implementation
             _durability = configuration.Durability;
         }
 
-        public ItemSaveData Save()
-        {
-            Debug.Log($"Saving item {_id}");
-            return new ItemSaveData(_id, _durability, transform.position, transform.rotation);
-        }
+        public ItemSaveData Save() =>
+            new ItemSaveData(_id, _durability, transform.position, transform.rotation);
 
         public void Load(ItemSaveData data)
         {
             transform.position = data.position;
             transform.rotation = data.rotation;
             _durability = data.durability;
+        }
+
+        public void AcceptSave(ISavableEntitiesVisitor visitor)
+        {
+            visitor.SaveData(this);
         }
     }
 }

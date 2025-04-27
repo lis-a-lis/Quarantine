@@ -10,11 +10,15 @@ namespace _Quarantine.Code.Infrastructure.GameStates
     {
         private readonly IGameStateMachine _gameStateMachine;
         private readonly IProgressSaveLoadService _progressSaveLoadService;
+        private readonly IGameProgressSaveService _gameProgressSaveService;
 
-        public ProgressLoadingState(IGameStateMachine gameStateMachine, IProgressSaveLoadService progressSaveLoadService)
+        public ProgressLoadingState(IGameStateMachine gameStateMachine,
+            IProgressSaveLoadService progressSaveLoadService,
+            IGameProgressSaveService gameProgressSaveService)
         {
             _gameStateMachine = gameStateMachine;
             _progressSaveLoadService = progressSaveLoadService;
+            _gameProgressSaveService = gameProgressSaveService;
         }
         
         public void Exit()
@@ -38,7 +42,9 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         {
             Debug.Log("Progress loaded");
             
-            _gameStateMachine.Enter<LinearSetupState, GameProgress>(progress);
+            _gameProgressSaveService.Initialize(progress);
+            //_gameStateMachine.Enter<CoroutineBasedSetupState, GameProgress>(progress);
+            _gameStateMachine.Enter<SetupState, GameProgress>(progress);
         }
     }
 }

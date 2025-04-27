@@ -12,5 +12,6 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
         public TItemConfiguration GetItemConfiguration<TItemConfiguration>(string itemID) where TItemConfiguration : ItemConfiguration;
         public Item CreateItemInstance(string itemID);
         public TItemInstance CreateItemInstanceAs<TItemInstance>(string itemID) where TItemInstance : Item;
+        public Item CreateItemInstanceDeactivated(string itemID);
     }
 }

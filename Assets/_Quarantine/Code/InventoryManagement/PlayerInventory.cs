@@ -4,6 +4,7 @@ using UnityEngine;
 using _Quarantine.Code.Items.Implementation;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
+using NUnit.Framework;
 
 namespace _Quarantine.Code.InventoryManagement
 {
@@ -27,27 +28,14 @@ namespace _Quarantine.Code.InventoryManagement
         public int SelectedSlotIndex => _selectedSlotIndex;
         public bool IsSlotSelected => _selectedSlotIndex != UnselectedSlotIndex;
 
-        public bool IsSelectedSlotFilled
-        {
-            get
-            {
-                if (_selectedSlotIndex == UnselectedSlotIndex)
-                    return false;
-                
-                return _slots[_selectedSlotIndex].IsFilled;
-            }
-        }
+        public bool IsSelectedSlotFilled =>
+            IsSlotSelected && _slots[_selectedSlotIndex].IsFilled;
 
-        public bool IsSelectedSlotEmpty
-        {
-            get
-            {
-                if (_selectedSlotIndex == UnselectedSlotIndex)
-                    return false;
-                
-                return _slots[_selectedSlotIndex].IsEmpty;
-            }
-        }
+        public bool IsSelectedSlotEmpty =>
+            IsSlotSelected && _slots[_selectedSlotIndex].IsEmpty;
+
+        public Item SelectedItem =>
+            IsSelectedSlotFilled ? _slots[_selectedSlotIndex].Item : null;
         
         private void Awake()
         {
@@ -66,7 +54,6 @@ namespace _Quarantine.Code.InventoryManagement
         {
             id = string.Empty;
             
-            Debug.Log(_slots[slotIndex]);
             if (_slots[slotIndex].IsEmpty)
                 return false;
 
@@ -164,9 +151,7 @@ namespace _Quarantine.Code.InventoryManagement
 
             for (int i = 0; i < data.slots.Count; i++)
             {
-                Item item = _itemsDatabase.CreateItemInstance(data.slots[i].id);
-                item.gameObject.SetActive(false);
-                item.GetComponent<Rigidbody>().isKinematic = true;
+                Item item = _itemsDatabase.CreateItemInstanceDeactivated(data.slots[i].id);
                 item.transform.SetParent(transform, false);
                 item.transform.localPosition = Vector3.one;
                 item.Load(data.slots[i]);

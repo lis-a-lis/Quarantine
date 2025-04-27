@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using _Quarantine.Code.UI.Loading;
+using System.Collections.Generic;
 using UnityEngine;
+using _Quarantine.Code.UI.Loading;
 
 namespace _Quarantine.Code.Infrastructure.Root.UI
 {

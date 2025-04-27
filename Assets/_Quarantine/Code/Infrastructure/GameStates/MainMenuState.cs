@@ -15,8 +15,8 @@ namespace _Quarantine.Code.Infrastructure.GameStates
     {
         private readonly IGameStateMachine _gameStateMachine;
         private readonly ISceneLoader _sceneLoader;
-        private MainMenu _menu;
-        private UIRoot _uiRoot;
+        private readonly MainMenu _menu;
+        private readonly UIRoot _uiRoot;
 
         public MainMenuState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader, MainMenuFactory mainMenuFactory, UIRoot uiRoot)
         {

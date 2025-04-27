@@ -1,19 +1,18 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using _Quarantine.Code.GameEntities;
+using _Quarantine.Code.Items.Generation;
 using _Quarantine.Code.InventoryManagement;
+using _Quarantine.Code.Items.Implementation;
+using _Quarantine.Code.UI.HUD.PlayerInventory;
+using _Quarantine.Code.Infrastructure.Services.UI;
+using _Quarantine.Code.Infrastructure.Services.SaveLoad;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
 using _Quarantine.Code.Infrastructure.Services.EntitiesCreation;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
-using _Quarantine.Code.Infrastructure.Services.SaveLoad;
-using _Quarantine.Code.Infrastructure.Services.UI;
-using _Quarantine.Code.Items.Generation;
-using _Quarantine.Code.Items.Implementation;
-using _Quarantine.Code.UI.HUD.PlayerInventory;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -23,62 +22,18 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         private readonly IItemDatabaseService _itemsDatabase;
         private readonly IEntitiesFactory _entitiesFactory;
         private readonly IHUDFactory _hudFactory;
+        private readonly IGameProgressSaveService _progressSaveService;
         private GameProgress _progress;
         private PlayerEntity _player;
-        private List<Func<UniTask>> _setupTasks;
-        private List<ISaveLoadEntity> _saveLoadEntities;
-        
+
         public SetupState(IGameStateMachine gameStateMachine, IEntitiesFactory entitiesFactory,
-            IItemDatabaseService itemDatabase, IHUDFactory hudFactory)
+            IItemDatabaseService itemDatabase, IHUDFactory hudFactory, IGameProgressSaveService progressSaveService)
         {
             _gameStateMachine = gameStateMachine;
             _entitiesFactory = entitiesFactory;
             _itemsDatabase = itemDatabase;
             _hudFactory = hudFactory;
-            _saveLoadEntities = new List<ISaveLoadEntity>();
-
-            InitializeSetupTasksList();
-        }
-
-        private void InitializeSetupTasksList()
-        {
-            _setupTasks = new List<Func<UniTask>>()
-            {
-                SetupPlayer,
-                SetupPlayerUseLoadedData,
-                CreateItemsGenerator,
-                SetupItems,
-                CreateInventoryHUD,
-            };
-        }
-
-        private async UniTask CreateInventoryHUD()
-        {
-            await UniTask.WaitForEndOfFrame();
-            
-            InventoryHUDPresenter inventoryHUD = _hudFactory.CreateInventoryHUD();
-            
-            inventoryHUD.Initialize(_player.GetComponent<IObservablePlayerInventory>(), _itemsDatabase);
-        }
-
-        private async UniTask CreateItemsGenerator()
-        {
-            await UniTask.WaitForEndOfFrame();
-
-            var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
-            var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
-
-            generator.transform.position += Vector3.up * 4;
-            boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
-            
-            generator.Initialize(_itemsDatabase);
-            boxGenerator.Initialize(_itemsDatabase);
-        }
-
-        private void ClearExistData()
-        {
-            _player = null;
-            _saveLoadEntities.Clear();
+            _progressSaveService = progressSaveService;
         }
 
         public void Enter(GameProgress progress)
@@ -86,55 +41,82 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             Debug.Log("Setup State Enter");
 
             _progress = progress;
-            ClearExistData();
-            
+            _player = null;
             Setup().Forget();
         }
 
         public void Exit()
         {
-            
         }
 
         private async UniTaskVoid Setup()
         {
-            await RunSetupTasks(_setupTasks);
+            await SetupPlayer();
             
-            _gameStateMachine.Enter<GameplayState, List<ISaveLoadEntity>>(_saveLoadEntities);
+            await CreateItemsGenerator();
+
+            await CreateInventoryHUD();
+
+            await SetupItems();
+
+            await UniTask.Yield();
+            
+            _gameStateMachine.Enter<GameplayState>();
+        }
+        
+        private async UniTask CreateInventoryHUD()
+        {
+            InventoryHUDPresenter inventoryHUD = _hudFactory.CreateInventoryHUD();
+
+            await UniTask.Yield();
+
+            inventoryHUD.Initialize(_player.GetComponent<IObservablePlayerInventory>(), _itemsDatabase);
         }
 
-        private async UniTask RunSetupTasks(List<Func<UniTask>> tasks)
+        private async UniTask CreateItemsGenerator()
         {
-            foreach (var task in tasks)
-                await task();
+            var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
+            generator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
+
+            await UniTask.Yield();
+
+            var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
+            boxGenerator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
+
+            await UniTask.Yield();
+
+            generator.transform.position += Vector3.up * 4;
+            boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
         }
 
         private async UniTask SetupItems()
         {
-            await UniTask.WaitForEndOfFrame();
-
             foreach (var itemData in _progress.items)
             {
                 Item item = _itemsDatabase.CreateItemInstance(itemData.id);
                 item.Load(itemData);
+
+                await UniTask.Yield();
             }
-        }
-        
-        private async UniTask SetupPlayerUseLoadedData()
-        {
-            await UniTask.WaitForEndOfFrame();
-            
-            _player.Load(_progress.player);
-            PlayerInventory inventory = _player.GetComponent<PlayerInventory>();
-            inventory.Setup(_itemsDatabase);
-            inventory.Load(_progress.player.inventory);
-            _player.GetComponent<PlayerInventoryInteractionsHandler>().Initialize();
         }
 
         private async UniTask SetupPlayer()
         {
-            _player = await _entitiesFactory.CreatePlayer();
-            _saveLoadEntities.Add(_player);
+            _player = _entitiesFactory.CreatePlayerEntity(
+                _progress.player.transform.playerPosition,
+                _progress.player.transform.playerRotation,
+                _progress.player.transform.cameraRotation);
+            
+            await UniTask.Yield();
+            
+            PlayerInventory inventory = _player.GetComponent<PlayerInventory>();
+            inventory.Setup(_itemsDatabase);
+            inventory.Load(_progress.player.inventory);
+
+            await UniTask.Yield();
+            
+            _player.GetComponent<PlayerInventoryInteractionsHandler>().Initialize();
+            _progressSaveService.AddSavableEntity(_player);
         }
     }
 }

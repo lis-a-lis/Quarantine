@@ -10,7 +10,7 @@ namespace _Quarantine.Code.GameEntities
     [RequireComponent(typeof(PlayerInputHandler))]
     [RequireComponent(typeof(PlayerFPSController))]
     [RequireComponent(typeof(PlayerInventory))]
-    public class PlayerEntity : MonoBehaviour, ISavable<PlayerSaveData>, ILoadable<PlayerSaveData>, ISaveLoadEntity
+    public class PlayerEntity : MonoBehaviour, ISavable<PlayerSaveData>, ILoadable<PlayerSaveData>, ISavableEntity
     {
         public PlayerSaveData Save()
         {
@@ -21,9 +21,8 @@ namespace _Quarantine.Code.GameEntities
             
             PlayerInventory playerInventory = gameObject.GetComponent<PlayerInventory>();
             
-            var slotsData = playerInventory.Save().slots;
             PlayerInventorySaveData inventory = new PlayerInventorySaveData(
-                playerInventory.SelectedSlotIndex, slotsData);
+                playerInventory.SelectedSlotIndex, playerInventory.Save().slots);
             
             PlayerStatsSaveData stats = new PlayerStatsSaveData(
                 100,
@@ -43,18 +42,18 @@ namespace _Quarantine.Code.GameEntities
                 throw new System.ArgumentNullException(nameof(data));
             
             Debug.Log("PLAYER LOADING/");
-            gameObject.transform.position = data.transform.playerPosition;
+            transform.position = data.transform.playerPosition;
             gameObject.transform.rotation = data.transform.playerRotation;
+            gameObject.GetComponentInChildren<Camera>().transform.localRotation = data.transform.cameraRotation;
+    
             Debug.Log(data.transform.playerPosition);
             Debug.Log(data.transform.playerRotation);
             Debug.Log(data.transform.cameraRotation);
-            Debug.Log("PLAYER DATA LOADED");
             
+            Debug.Log(transform.position);
             Debug.Log(gameObject.transform.position);
             Debug.Log(gameObject.transform.rotation);
-            
-            
-            gameObject.GetComponentInChildren<Camera>().transform.localRotation = data.transform.cameraRotation;
+            Debug.Log("PLAYER DATA LOADED");
         }
 
         public void AcceptSave(ISavableEntitiesVisitor visitor)

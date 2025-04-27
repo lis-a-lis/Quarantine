@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Quarantine.Code.GameProgression.Days
+namespace _Quarantine.Code.GameProgression.Days.Loot
 {
+    [CreateAssetMenu(menuName = "Game Progression/RatioBox Loot By Days", fileName = "RatioBox Loot By Days", order = 0)]
     public class RatioBoxLootByDays : ScriptableObject
     {
         [SerializeField] private List<DailyRatioLootList> _ratioBoxLoot = new List<DailyRatioLootList>();
 
-        public string[] GetAvailableLootIds(int day)
+        public string[] GetDailyLootIdList(int day)
         {
             if (day <= 0 || day >= _ratioBoxLoot.Count)
                 throw new ArgumentOutOfRangeException();
@@ -22,15 +23,8 @@ namespace _Quarantine.Code.GameProgression.Days
         }
     }
 
-    [Serializable]
-    public class DailyRatioLootList
+    public class RatioBoxGenerator : MonoBehaviour
     {
-        public List<DailyLootData> lootList = new List<DailyLootData>();
-    }
-
-    [Serializable]
-    public class DailyLootData
-    {
-        [ItemIDSelector] public string itemID;
+        
     }
 }

@@ -13,35 +13,23 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
             _configurationProvider = configurationProvider;
         }
 
-        public void Visit(ISetupItem<FoodItemConfiguration> food)
-        {
+        public void Visit(ISetupItem<FoodItemConfiguration> food) =>
             Setup(food);
-        }
 
-        public void Visit(ISetupItem<VaccineItemConfiguration> vaccine)
-        {
+        public void Visit(ISetupItem<VaccineItemConfiguration> vaccine) =>
             Setup(vaccine);
-        }
 
-        public void Visit(ISetupItem<CigarettesItemConfiguration> cigarettes)
-        {
+        public void Visit(ISetupItem<CigarettesItemConfiguration> cigarettes) =>
             Setup(cigarettes);
-        }
 
-        public void Visit(ISetupItem<RubbishBagItemConfiguration> rubbishBag)
-        {
+        public void Visit(ISetupItem<RubbishBagItemConfiguration> rubbishBag) =>
             Setup(rubbishBag);
-        }
         
-        public void Visit(ISetupItem<BoxItemConfiguration> box)
-        {
+        public void Visit(ISetupItem<BoxItemConfiguration> box) =>
             Setup(box);
-        }
 
         private void Setup<TItemConfiguration>(ISetupItem<TItemConfiguration> item)
-            where TItemConfiguration : ItemConfiguration
-        {
+            where TItemConfiguration : ItemConfiguration =>
             item.Setup(_configurationProvider.GetItemConfiguration<TItemConfiguration>());
-        }
     }
 }

@@ -6,11 +6,6 @@ using _Quarantine.Code.Infrastructure.PersistentProgress;
 
 namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
 {
-    public static class SaveLoadConstants   
-    {
-        public const string SaveName = "_save_Quarantine";
-    }
-    
     public class JsonUtilityProgressSaveLoadService : IProgressSaveLoadService
     {
         private GameProgress _lastLoadedLastLoadedProgress = new GameProgress();

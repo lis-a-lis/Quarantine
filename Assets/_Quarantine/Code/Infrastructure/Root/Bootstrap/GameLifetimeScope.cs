@@ -25,12 +25,12 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
             builder.Register<MainMenuFactory>(Lifetime.Transient);
             builder.Register<IHUDFactory, HUDFactory>(Lifetime.Transient);
             builder.Register<IEntitiesFactory, EntitiesFactory>(Lifetime.Transient);
+            builder.Register<IGameProgressSaveService, GameProgressSaveService>(Lifetime.Singleton);
             
             builder.Register<GameStateMachine>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<MainMenuState>(Lifetime.Singleton);
             builder.Register<GameplayState>(Lifetime.Singleton);
             builder.Register<SetupState>(Lifetime.Singleton);
-            builder.Register<LinearSetupState>(Lifetime.Singleton);
             builder.Register<ProgressLoadingState>(Lifetime.Singleton);
         }
     }

@@ -39,7 +39,6 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
             _gameStateMachine.AddState<MainMenuState>(_gameScope.Container.Resolve<MainMenuState>());
             
             _gameStateMachine.AddState<SetupState>(_gameScope.Container.Resolve<SetupState>());
-            _gameStateMachine.AddState<LinearSetupState>(_gameScope.Container.Resolve<LinearSetupState>());
             
             _gameStateMachine.AddState<ProgressLoadingState>(_gameScope.Container.Resolve<ProgressLoadingState>());
             
