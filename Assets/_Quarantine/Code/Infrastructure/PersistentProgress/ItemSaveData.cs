@@ -7,11 +7,11 @@ namespace _Quarantine.Code.Infrastructure.PersistentProgress
     public class ItemSaveData
     {
         public string id;
-        public float durability;
+        public int durability;
         public Vector3 position;
         public Quaternion rotation;
 
-        public ItemSaveData(string id, float durability, Vector3 position, Quaternion rotation)
+        public ItemSaveData(string id, int durability, Vector3 position, Quaternion rotation)
         {
             this.id = id;
             this.durability = durability;

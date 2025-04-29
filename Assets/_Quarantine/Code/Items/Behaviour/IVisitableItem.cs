@@ -9,6 +9,7 @@ namespace _Quarantine.Code.Items.Behaviour
     
     public interface IVisitableItem : IItem
     {
+        public string Id { get; }
         public void Accept(ISetupItemVisitor visitor);
     }
 }

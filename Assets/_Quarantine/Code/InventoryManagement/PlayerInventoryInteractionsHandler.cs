@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using _Quarantine.Code.Items.Implementation;
 using Cysharp.Threading.Tasks;
@@ -16,6 +17,9 @@ namespace _Quarantine.Code.InventoryManagement
 
         private PlayerInventory _inventory;
         private bool _isSwitching;
+
+        public event Action<Item> ItemAppearInHands;
+        public event Action ItemDisappearInHands;
 
         private void Awake()
         {
@@ -38,6 +42,8 @@ namespace _Quarantine.Code.InventoryManagement
             if (_playerHands.IsItemInHands)
             {
                 _playerHands.RunItemDisappearAnimation(_slotSelectionDuration);
+                
+                ItemDisappearInHands?.Invoke();
 
                 await UniTask.WaitForSeconds(_slotSelectionDuration);
 
@@ -52,6 +58,8 @@ namespace _Quarantine.Code.InventoryManagement
                 _playerHands.RunItemAppearAnimation(_slotSelectionDuration);
 
                 await UniTask.WaitForSeconds(_slotSelectionDuration);
+                
+                ItemAppearInHands?.Invoke(_inventory.SelectedItem);
             }
 
             _isSwitching = false;
@@ -86,7 +94,6 @@ namespace _Quarantine.Code.InventoryManagement
             Item item = hit.collider.GetComponent<Item>();
 
             bool isItemPickedToSelectedSlot = _inventory.IsSelectedSlotEmpty;
-
             
             Debug.Log($"picked up item {item.Id}");
             if (_inventory.AddItem(item))

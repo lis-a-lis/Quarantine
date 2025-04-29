@@ -49,10 +49,15 @@ namespace _Quarantine.Code.Items.Generation
 
                 while (_spawn)
                 {
-                    Item item = _itemDatabaseService.CreateItemInstance("RubbishBagI");
+                    Item item = _itemDatabaseService.CreateItemInstance("BeefCan");
                     item.gameObject.transform.position = transform.position;
                     item.gameObject.SetActive(true);
                     _onItemCreated?.Invoke(item);
+                    
+                    Item item2 = _itemDatabaseService.CreateItemInstance("WaterBottle");
+                    item2.gameObject.transform.position = transform.position + Vector3.forward * 2;
+                    item2.gameObject.SetActive(true);
+                    _onItemCreated?.Invoke(item2);
 
                     await UniTask.Delay(2000);
                 }

@@ -16,10 +16,10 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
         public void Visit(ISetupItem<FoodItemConfiguration> food) =>
             Setup(food);
 
-        public void Visit(ISetupItem<VaccineItemConfiguration> vaccine) =>
+        public void Visit(ISetupItem<MilitaryPillsItemConfiguration> vaccine) =>
             Setup(vaccine);
 
-        public void Visit(ISetupItem<CigarettesItemConfiguration> cigarettes) =>
+        public void Visit(ISetupItem<CigarettesPackItemConfiguration> cigarettes) =>
             Setup(cigarettes);
 
         public void Visit(ISetupItem<RubbishBagItemConfiguration> rubbishBag) =>
@@ -30,6 +30,6 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
 
         private void Setup<TItemConfiguration>(ISetupItem<TItemConfiguration> item)
             where TItemConfiguration : ItemConfiguration =>
-            item.Setup(_configurationProvider.GetItemConfiguration<TItemConfiguration>());
+            item.Setup(_configurationProvider.GetItemConfiguration<TItemConfiguration>(item.Id));
     }
 }

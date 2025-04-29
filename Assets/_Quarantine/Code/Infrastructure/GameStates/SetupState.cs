@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using _Quarantine.Code.GameEntities;
 using _Quarantine.Code.Items.Generation;
@@ -13,6 +12,8 @@ using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
 using _Quarantine.Code.Infrastructure.Services.EntitiesCreation;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
+using _Quarantine.Code.Stats;
+using _Quarantine.Code.UI.HUD.PlayerStatsHUD;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -67,10 +68,12 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         private async UniTask CreateInventoryHUD()
         {
             InventoryHUDPresenter inventoryHUD = _hudFactory.CreateInventoryHUD();
+            inventoryHUD.Initialize(_player.GetComponent<IObservablePlayerInventory>(), _itemsDatabase);
 
             await UniTask.Yield();
 
-            inventoryHUD.Initialize(_player.GetComponent<IObservablePlayerInventory>(), _itemsDatabase);
+            StatsHUDPresenter statsHUDPresenter = inventoryHUD.GetComponentInChildren<StatsHUDPresenter>();
+            statsHUDPresenter.Initialize(_player.GetComponent<PlayerStats>());
         }
 
         private async UniTask CreateItemsGenerator()

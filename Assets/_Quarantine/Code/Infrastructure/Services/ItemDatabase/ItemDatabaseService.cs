@@ -30,7 +30,7 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
             {
                 Debug.Log(cell.ID);
                 _database.Add(cell.ID, cell);
-                _itemsIDByType.Add(cell.Configuration.GetType(), cell.ID);
+                //_itemsIDByType.Add(cell.Configuration.GetType(), cell.ID);
             }
         }
         

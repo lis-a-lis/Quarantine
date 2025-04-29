@@ -8,10 +8,10 @@ namespace _Quarantine.Code.Items.Implementation
     public class Item : MonoBehaviour, ISavable<ItemSaveData>, ILoadable<ItemSaveData>, ISavableEntity
     {
         private string _id;
-        private float _durability;
+        private int _durability;
 
         public string Id => _id;
-        public float Durability
+        public int Durability
         {
             get => _durability;
             protected set => _durability = value;

@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 using _Quarantine.Code.FPSMovement;
 using _Quarantine.Code.GameEntities;
+using _Quarantine.Code.Interactable;
 using _Quarantine.Code.InventoryManagement;
 
 namespace _Quarantine.Code.Input
@@ -11,6 +12,8 @@ namespace _Quarantine.Code.Input
         private InputSystem_Actions _input;
         private PlayerEntity _playerEntity;
         private IFPSController _fpsController;
+        private IInteractionsHandler _interactionsHandler;
+        private ItemInteractionsHandler _itemInteractionsHandler;
         private IInventoryInteractionsHandler _inventoryInteractionsHandler;
         
         private void Awake()
@@ -23,28 +26,16 @@ namespace _Quarantine.Code.Input
             _playerEntity = GetComponent<PlayerEntity>();
            
             _fpsController = _playerEntity.GetComponent<IFPSController>();
+            _interactionsHandler = _playerEntity.GetComponent<IInteractionsHandler>();
+            _itemInteractionsHandler = _playerEntity.GetComponent<ItemInteractionsHandler>();
             _inventoryInteractionsHandler = _playerEntity.GetComponent<IInventoryInteractionsHandler>();
         }
-
-        public void LockInput()
-        {
-            _input.Disable();
-        }
-
-        public void UnlockInput()
-        {
-            _input.Enable();
-        }
-
-        private void Update()
-        {
-            _fpsController.Move(_input.Player.Move.ReadValue<Vector2>());
-            _fpsController.Look(_input.Player.Look.ReadValue<Vector2>());
-        }
-
+        
         private void OnEnable()
         {
             _input.Enable();
+
+            _input.Player.Interact.performed += OnInteractPerformed;
             
             _input.Player.Attack.performed += OnAttackPerformed;
             _input.Player.Attack.canceled += OnAttackCanceled;
@@ -59,6 +50,48 @@ namespace _Quarantine.Code.Input
             _input.Player.SelectSlot3.performed += OnSlot3Selected;
             _input.Player.SelectSlot4.performed += OnSlot4Selected;
             _input.Player.SelectSlot5.performed += OnSlot5Selected;
+        }
+        
+        private void OnDisable()
+        {
+            _input.Disable();
+            
+            _input.Player.Interact.performed -= OnInteractPerformed;
+            
+            _input.Player.Attack.performed -= OnAttackPerformed;
+            _input.Player.Attack.canceled -= OnAttackCanceled;
+            
+            _input.Player.Sprint.performed -= OnSprintPerformed;
+            _input.Player.Sprint.canceled -= OnSprintCanceled;
+            
+            _input.Player.DropItem.performed -= OnDropItemPerformed;
+            
+            _input.Player.SelectSlot1.performed -= OnSlot1Selected;
+            _input.Player.SelectSlot2.performed -= OnSlot2Selected;
+            _input.Player.SelectSlot3.performed -= OnSlot3Selected;
+            _input.Player.SelectSlot4.performed -= OnSlot4Selected;
+            _input.Player.SelectSlot5.performed -= OnSlot5Selected;
+        }
+        
+        private void Update()
+        {
+            _fpsController.Move(_input.Player.Move.ReadValue<Vector2>());
+            _fpsController.Look(_input.Player.Look.ReadValue<Vector2>());
+        }
+        
+        public void LockInput()
+        {
+            _input.Disable();
+        }
+
+        public void UnlockInput()
+        {
+            _input.Enable();
+        }
+        
+        private void OnInteractPerformed(InputAction.CallbackContext obj)
+        {
+            _itemInteractionsHandler.Interact();
         }
 
         private void OnDropItemPerformed(InputAction.CallbackContext obj)
@@ -85,31 +118,12 @@ namespace _Quarantine.Code.Input
         {
             Debug.Log("attack");
             
+            _interactionsHandler.Interact();
             _inventoryInteractionsHandler.PickUpItem();
         }
         
         private void OnAttackCanceled(InputAction.CallbackContext obj)
         {
-            
-        }
-        
-        private void OnDisable()
-        {
-            _input.Disable();
-
-            _input.Player.Attack.performed -= OnAttackPerformed;
-            _input.Player.Attack.canceled -= OnAttackCanceled;
-            
-            _input.Player.Sprint.performed -= OnSprintPerformed;
-            _input.Player.Sprint.canceled -= OnSprintCanceled;
-            
-            _input.Player.DropItem.performed -= OnDropItemPerformed;
-            
-            _input.Player.SelectSlot1.performed -= OnSlot1Selected;
-            _input.Player.SelectSlot2.performed -= OnSlot2Selected;
-            _input.Player.SelectSlot3.performed -= OnSlot3Selected;
-            _input.Player.SelectSlot4.performed -= OnSlot4Selected;
-            _input.Player.SelectSlot5.performed -= OnSlot5Selected;
             
         }
 

@@ -5,9 +5,9 @@ using _Quarantine.Code.Items.Configuration.Configs;
 
 namespace _Quarantine.Code.Items.Implementation
 {
-    public class VaccineInjection : Item, ISetupItem<VaccineItemConfiguration>
+    public class VaccineInjection : Item, ISetupItem<MilitaryPillsItemConfiguration>
     {
-        public void Setup(VaccineItemConfiguration configuration)
+        public void Setup(MilitaryPillsItemConfiguration configuration)
         {
             throw new NotImplementedException();
         }

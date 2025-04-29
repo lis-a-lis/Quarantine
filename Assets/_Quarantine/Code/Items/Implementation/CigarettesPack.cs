@@ -5,9 +5,9 @@ using _Quarantine.Code.Items.Configuration.Configs;
 
 namespace _Quarantine.Code.Items.Implementation
 {
-    public class CigarettesPack : Item, ISetupItem<CigarettesItemConfiguration>
+    public class CigarettesPack : Item, ISetupItem<CigarettesPackItemConfiguration>
     {
-        public void Setup(CigarettesItemConfiguration configuration)
+        public void Setup(CigarettesPackItemConfiguration configuration)
         {
             throw new NotImplementedException();
         }
