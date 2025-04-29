@@ -1,5 +1,4 @@
 ﻿using System;
-using DG.Tweening;
 using UnityEngine;
 
 namespace _Quarantine.Code.FPSMovement
@@ -54,15 +53,7 @@ namespace _Quarantine.Code.FPSMovement
             
             _cameraSensitivity = sensitivity;
         }
-
-        public void SetCameraMode(CameraMode mode)
-        {
-            if (_isFreeCamera && mode == CameraMode.Fixed)
-                _camera.transform.DOLocalRotate(new Vector3(_cameraVerticalRotation, 0, 0), 0.5f);
-                
-            _isFreeCamera = mode == CameraMode.Free;
-        }
-
+        
         public void Move(Vector2 movementDirection)
         {
             _playerMovementDirection = movementDirection;

@@ -16,7 +16,8 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<UIRootFactory>(Lifetime.Transient);
-            builder.Register(resolver => resolver.Resolve<UIRootFactory>().Create(), Lifetime.Singleton);
+            builder.Register(resolver =>
+                resolver.Resolve<UIRootFactory>().Create(), Lifetime.Singleton);
             
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.Register<IAssetsProvider, AssetsProvider>(Lifetime.Singleton);
@@ -28,10 +29,10 @@ namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
             builder.Register<IGameProgressSaveService, GameProgressSaveService>(Lifetime.Singleton);
             
             builder.Register<GameStateMachine>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<ProgressLoadingState>(Lifetime.Singleton);
             builder.Register<MainMenuState>(Lifetime.Singleton);
             builder.Register<GameplayState>(Lifetime.Singleton);
             builder.Register<SetupState>(Lifetime.Singleton);
-            builder.Register<ProgressLoadingState>(Lifetime.Singleton);
         }
     }
 }

@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using _Quarantine.Code.UI.MainMenu;
+using _Quarantine.Code.Infrastructure.Root.UI;
 using _Quarantine.Code.Infrastructure.Services.UI;
-using _Quarantine.Code.Infrastructure.Services.SceneLoading;
 using _Quarantine.Code.Infrastructure.GameRequests;
+using _Quarantine.Code.Infrastructure.Services.SceneLoading;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
-using _Quarantine.Code.Infrastructure.Root.UI;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -18,7 +18,8 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         private readonly MainMenu _menu;
         private readonly UIRoot _uiRoot;
 
-        public MainMenuState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader, MainMenuFactory mainMenuFactory, UIRoot uiRoot)
+        public MainMenuState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader,
+            MainMenuFactory mainMenuFactory, UIRoot uiRoot)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -33,7 +34,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             
             _uiRoot.HideLoadingScreen();
             _menu.gameObject.SetActive(true);
-            _menu.RequestSended += HandleMainMenuRequest;
+            _menu.RequestSent += HandleMainMenuRequest;
             
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -41,7 +42,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         public void Exit()
         {
-            _menu.RequestSended -= HandleMainMenuRequest;
+            _menu.RequestSent -= HandleMainMenuRequest;
             _menu.gameObject.SetActive(false);
         }
 
@@ -85,7 +86,6 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 #else
             Application.Quit();
 #endif            
-            
         }
     }
 }

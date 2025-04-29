@@ -1,8 +1,8 @@
+using UnityEngine;
 using _Quarantine.Code.Stats;
 using _Quarantine.Code.Items.Behaviour;
 using _Quarantine.Code.Items.Configuration.Configs;
 using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
-using UnityEngine;
 
 namespace _Quarantine.Code.Items.Implementation
 {
@@ -26,6 +26,7 @@ namespace _Quarantine.Code.Items.Implementation
             Debug.Log(stats);
             stats.AddEffect(new TemporaryEffect(StatsType.Satiety, _calories, 1));
             Durability -= 1;
+            
             return true;
         }
     }

@@ -34,11 +34,6 @@ namespace _Quarantine.Code.UI.Loading
                 .SetAutoKill(false);
         }
 
-        public void UpdateProgressBar(float progress)
-        {
-            _gearImage.fillAmount = progress;
-        }
-
         public void Show()
         {
             gameObject.SetActive(true);
@@ -47,7 +42,6 @@ namespace _Quarantine.Code.UI.Loading
 
         public void Hide()
         {
-            //_loadingAnimation.Kill();
             gameObject.SetActive(false);
         }
     }

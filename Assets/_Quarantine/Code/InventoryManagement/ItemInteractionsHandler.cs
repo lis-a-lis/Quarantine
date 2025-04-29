@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+using _Quarantine.Code.Stats;
 using _Quarantine.Code.Items.Behaviour;
 using _Quarantine.Code.Items.Implementation;
-using _Quarantine.Code.Stats;
-using UnityEngine;
 
 namespace _Quarantine.Code.InventoryManagement
 {
     [RequireComponent(typeof(PlayerInventoryInteractionsHandler))]
+    [RequireComponent(typeof(PlayerStats))]
     public class ItemInteractionsHandler : MonoBehaviour
     {
         private PlayerInventoryInteractionsHandler _inventoryInteractionsHandler;
@@ -19,6 +20,14 @@ namespace _Quarantine.Code.InventoryManagement
         private Dictionary<Type, Action> _interactionsByItemBehaviourType;
         private Action _currentItemBehaviour;
 
+        public void Interact()
+        {
+            if (_currentItem == null || _currentItemBehaviour == null)
+                return;
+            
+            _currentItemBehaviour.Invoke();
+        }
+        
         private void Awake()
         {
             _stats = GetComponent<PlayerStats>();
@@ -66,14 +75,6 @@ namespace _Quarantine.Code.InventoryManagement
             _inventoryInteractionsHandler.ItemDisappearInHands -= HideInteractions;
         }
 
-        public void Interact()
-        {
-            if (_currentItem == null)
-                return;
-            
-            _currentItemBehaviour.Invoke();
-        }
-
         private void HideInteractions()
         {
             _currentItem = null;
@@ -92,9 +93,6 @@ namespace _Quarantine.Code.InventoryManagement
                     break;
                 }
             }
-            
-            Debug.Log(_currentItem);
-            Debug.Log(_currentItemBehaviour);
         }
     }
 }

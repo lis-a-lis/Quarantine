@@ -10,6 +10,7 @@ namespace _Quarantine.Code.UI.HUD.PlayerStatsHUD
         [SerializeField] private Image _mindBar;
         [SerializeField] private Image _satietyBar;
         [SerializeField] private Image _waterBar;
+        
         private PlayerStats _stats;
         
         public void Initialize(PlayerStats playerStats)

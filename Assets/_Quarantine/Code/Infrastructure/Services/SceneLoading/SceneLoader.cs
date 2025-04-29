@@ -24,8 +24,6 @@ namespace _Quarantine.Code.Infrastructure.Services.SceneLoading
                 throw new NullReferenceException();
                 
             loading.allowSceneActivation = false;
-
-            //await UniTask.Delay(2000);
             
             while (!loading.isDone)
             {
@@ -43,8 +41,6 @@ namespace _Quarantine.Code.Infrastructure.Services.SceneLoading
                         onLoaded?.Invoke();
                     }
                 }
-
-                Debug.Log(loading.progress);
                 
                 await UniTask.Yield();
             }

@@ -80,15 +80,12 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         {
             var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
             generator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
+            generator.transform.position += Vector3.up * 4;
 
             await UniTask.Yield();
 
             var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
             boxGenerator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
-
-            await UniTask.Yield();
-
-            generator.transform.position += Vector3.up * 4;
             boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
         }
 
@@ -107,8 +104,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         {
             _player = _entitiesFactory.CreatePlayerEntity(
                 _progress.player.transform.playerPosition,
-                _progress.player.transform.playerRotation,
-                _progress.player.transform.cameraRotation);
+                _progress.player.transform.playerRotation);
             
             await UniTask.Yield();
             

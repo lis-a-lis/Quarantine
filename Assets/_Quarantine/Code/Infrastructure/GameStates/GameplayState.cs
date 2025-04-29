@@ -38,33 +38,27 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         public void Update()
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.M))
-            {
-                Debug.Log("OnMenuButtonPressed");
-            
-                _uiRoot.ShowLoadingScreen();
-                
-                SaveProgress();
-
-                var hud = Object.FindFirstObjectByType<InventoryHUDPresenter>();
-                
-                Debug.Log(hud);
-                
-                Object.Destroy(hud.gameObject);
-                
-                _sceneLoader.LoadScene(Scenes.Menu, 
-                    () => true,
-                    f => Debug.Log("back to menu"),
-                    () => _gameStateMachine.Enter<MainMenuState>());
-            }
+                BackToMenu();
         }
-        
-        private void SaveProgress()
+
+        private void BackToMenu()
         {
-            Debug.Log("Save progress..");
-            
+            _uiRoot.ShowLoadingScreen();
+                
             _saveLoadService.Save();
             
             _saveLoadService.ClearSavableEntities();
+
+            var hud = Object.FindFirstObjectByType<InventoryHUDPresenter>();
+                
+            Debug.Log(hud);
+                
+            Object.Destroy(hud.gameObject);
+                
+            _sceneLoader.LoadScene(Scenes.Menu, 
+                () => true,
+                f => Debug.Log("back to menu"),
+                () => _gameStateMachine.Enter<MainMenuState>());
         }
     }
 }

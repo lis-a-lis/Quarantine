@@ -17,7 +17,7 @@ namespace _Quarantine.Code.UI.MainMenu
         private Sequence _openSettingsAnimation;
         private Sequence _openMainMenuAnimation;
         
-        public event Action<MainMenuRequest> RequestSended;
+        public event Action<MainMenuRequest> RequestSent;
         
         private void Awake()
         {
@@ -50,7 +50,7 @@ namespace _Quarantine.Code.UI.MainMenu
         {
             Debug.Log("Play button pressed");
 
-            RequestSended?.Invoke(MainMenuRequest.Play);
+            RequestSent?.Invoke(MainMenuRequest.Play);
         }
 
         public void OnSettingsButtonPressed()
@@ -64,7 +64,7 @@ namespace _Quarantine.Code.UI.MainMenu
         {
             Debug.Log("Quit button pressed");
             
-            RequestSended?.Invoke(MainMenuRequest.Quit);
+            RequestSent?.Invoke(MainMenuRequest.Quit);
         }
 
         public void OnBackButtonPressed()

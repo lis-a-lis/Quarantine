@@ -4,7 +4,6 @@ using UnityEngine;
 using _Quarantine.Code.Items.Implementation;
 using _Quarantine.Code.Infrastructure.PersistentProgress;
 using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
-using NUnit.Framework;
 
 namespace _Quarantine.Code.InventoryManagement
 {

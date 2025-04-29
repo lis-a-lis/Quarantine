@@ -6,11 +6,11 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
 {
     public class SetupItemVisitor : ISetupItemVisitor
     {
-        private readonly IItemConfigurationProvider _configurationProvider;
+        private readonly IItemDatabaseService _itemDatabaseService;
         
-        public SetupItemVisitor(IItemConfigurationProvider configurationProvider)
+        public SetupItemVisitor(IItemDatabaseService itemDatabaseService)
         {
-            _configurationProvider = configurationProvider;
+            _itemDatabaseService = itemDatabaseService;
         }
 
         public void Visit(ISetupItem<FoodItemConfiguration> food) =>
@@ -30,6 +30,6 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
 
         private void Setup<TItemConfiguration>(ISetupItem<TItemConfiguration> item)
             where TItemConfiguration : ItemConfiguration =>
-            item.Setup(_configurationProvider.GetItemConfiguration<TItemConfiguration>(item.Id));
+            item.Setup(_itemDatabaseService.GetItemConfiguration<TItemConfiguration>(item.Id));
     }
 }

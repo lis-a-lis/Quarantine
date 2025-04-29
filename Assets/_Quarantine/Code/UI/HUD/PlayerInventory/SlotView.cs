@@ -38,7 +38,6 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
         private void SetSlotColor(Color color)
         {
             _slotBorders.color = color;
-            //_itemIcon.color = color;
         }
     }
 }

@@ -48,17 +48,21 @@ namespace _Quarantine.Code.Stats
             _mind = _config.MaxMind;
             _satiety = _config.MaxSatiety;
             _water = _config.MaxWater;
-            
+
             _temporaryEffects = new List<TemporaryEffect>();
-            
-            _persistantEffects = new List<PersistantEffect>()
-            {
-                new PersistantEffect(StatsType.Satiety, -_config.DefaultSatietyDecrease),
-                new PersistantEffect(StatsType.Water, -_config.DefaultWaterDecrease),
-            };
+            _persistantEffects = new List<PersistantEffect>();
+
+            InitializeEffectsBehaviourDatabase();
+            AddDefaultPersistantEffects();
         }
 
-        private void Start()
+        private void AddDefaultPersistantEffects()
+        {
+            AddEffect(new PersistantEffect(StatsType.Satiety, -_config.DefaultSatietyDecrease));
+            AddEffect(new PersistantEffect(StatsType.Water, -_config.DefaultWaterDecrease));
+        }
+
+        private void InitializeEffectsBehaviourDatabase()
         {
             _effectsBehaviour = new Dictionary<StatsType, Action<float, float>>
             {
@@ -98,8 +102,8 @@ namespace _Quarantine.Code.Stats
             foreach (var effect in _persistantEffects)
                 _effectsBehaviour[effect.type](effect.value, duration);
             
-            if (_temporaryEffects.Count == 0)
-                return;
+            /*if (_temporaryEffects.Count == 0)
+                return;*/
             
             for (int i = _temporaryEffects.Count - 1; i >= 0; i--)
             {

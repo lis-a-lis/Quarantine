@@ -4,25 +4,16 @@ using UnityEngine;
 
 namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
 {
-    public interface IGameProgressSaveService
-    {
-        public void Initialize(GameProgress gameProgress);
-        public void AddSavableEntity(ISavableEntity savableEntity);
-        public void ClearSavableEntities();
-        public void Save();
-    }
-    
     public class GameProgressSaveService : IGameProgressSaveService
     {
         private readonly IProgressSaveLoadService _progressSaveLoadService;
+        private readonly List<ISavableEntity> _savableEntities;
         private ISavableEntitiesVisitor _visitor;
         private GameProgress _progress;
-        private readonly List<ISavableEntity> _savableEntities;
 
         public GameProgressSaveService(IProgressSaveLoadService progressSaveLoadService)
         {
             _progressSaveLoadService = progressSaveLoadService;
-            //_progress = new GameProgress();
             _savableEntities = new List<ISavableEntity>();
         }
 

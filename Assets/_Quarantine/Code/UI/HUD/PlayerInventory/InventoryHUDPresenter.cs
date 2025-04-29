@@ -11,7 +11,7 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
         [SerializeField] private SlotView _slotViewPrefab;
         [SerializeField] private Transform _inventorySlotViewsContainer;
 
-        private readonly List<SlotView> _slotViews = new List<SlotView>();
+        private List<SlotView> _slotViews;
         private IObservablePlayerInventory _inventory;
         private IItemDatabaseService _itemDatabaseService;
 
@@ -31,6 +31,8 @@ namespace _Quarantine.Code.UI.HUD.PlayerInventory
 
         private void CreateSlotViews()
         {
+            _slotViews = new List<SlotView>();
+            
             for (int i = 0; i < _inventory.SlotsAmount; i++)
             {
                 _slotViews.Add(Instantiate(_slotViewPrefab, _inventorySlotViewsContainer));

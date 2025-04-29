@@ -1,8 +1,8 @@
-using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
-using _Quarantine.Code.Infrastructure.GameStates;
-using Unity.VisualScripting;
 using UnityEngine;
+using Unity.VisualScripting;
 using VContainer;
+using _Quarantine.Code.Infrastructure.GameStates;
+using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 
 namespace _Quarantine.Code.Infrastructure.Root.Bootstrap
 {

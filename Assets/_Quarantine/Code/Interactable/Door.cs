@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
@@ -15,7 +14,15 @@ namespace _Quarantine.Code.Interactable
         private bool _isOpened;
         private Sequence _openingAnimation;
         private Sequence _closingAnimation;
-
+        
+        public void Interact()
+        {
+            if (_isInteracting)
+                return;
+            
+            RunInteraction().Forget();
+        }
+        
         private void Awake()
         {
             _openingAnimation = DOTween.Sequence();
@@ -34,14 +41,6 @@ namespace _Quarantine.Code.Interactable
         {
             _openingAnimation.Kill();
             _closingAnimation.Kill();
-        }
-
-        public void Interact()
-        {
-            if (_isInteracting)
-                return;
-            
-            RunInteraction().Forget();
         }
         
         private async UniTaskVoid RunInteraction()
