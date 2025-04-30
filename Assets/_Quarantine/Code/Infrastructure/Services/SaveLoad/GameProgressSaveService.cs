@@ -39,7 +39,7 @@ namespace _Quarantine.Code.Infrastructure.Services.SaveLoad
             foreach (var entity in _savableEntities)
                 entity.AcceptSave(_visitor);
 
-            _progressSaveLoadService.Save(_visitor.GameProgress);
+            _progressSaveLoadService.Save(_visitor.GameProgress).Forget();
         }
     }
 }

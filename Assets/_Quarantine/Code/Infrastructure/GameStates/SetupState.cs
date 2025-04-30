@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using _Quarantine.Code.GameEntities;
+using _Quarantine.Code.GameProgression.Days.Loot;
 using _Quarantine.Code.Items.Generation;
 using _Quarantine.Code.InventoryManagement;
 using _Quarantine.Code.Items.Implementation;
@@ -12,8 +14,10 @@ using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
 using _Quarantine.Code.Infrastructure.Services.EntitiesCreation;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine;
 using _Quarantine.Code.Infrastructure.GameBehaviourStateMachine.States;
+using _Quarantine.Code.Infrastructure.Services.AssetsManagement;
 using _Quarantine.Code.Stats;
 using _Quarantine.Code.UI.HUD.PlayerStatsHUD;
+using NUnit.Framework;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -24,17 +28,19 @@ namespace _Quarantine.Code.Infrastructure.GameStates
         private readonly IEntitiesFactory _entitiesFactory;
         private readonly IHUDFactory _hudFactory;
         private readonly IGameProgressSaveService _progressSaveService;
+        private readonly IAssetsProvider _assetsProvider;
         private GameProgress _progress;
         private PlayerEntity _player;
 
         public SetupState(IGameStateMachine gameStateMachine, IEntitiesFactory entitiesFactory,
-            IItemDatabaseService itemDatabase, IHUDFactory hudFactory, IGameProgressSaveService progressSaveService)
+            IItemDatabaseService itemDatabase, IHUDFactory hudFactory, IGameProgressSaveService progressSaveService, IAssetsProvider assetsProvider)
         {
             _gameStateMachine = gameStateMachine;
             _entitiesFactory = entitiesFactory;
             _itemsDatabase = itemDatabase;
             _hudFactory = hudFactory;
             _progressSaveService = progressSaveService;
+            _assetsProvider = assetsProvider;
         }
 
         public void Enter(GameProgress progress)
@@ -87,8 +93,28 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
             boxGenerator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
             boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
-        }
 
+            await UniTask.Yield();
+
+            //RatioBoxGenerator ratioBoxGenerator = new RatioBoxGenerator(_assetsProvider, _itemsDatabase);
+
+            var list = new List<string>()
+            {
+                "BeefCan",
+                "BeefCan",
+                "WaterBottle",
+                "WaterBottle",
+                "BeefCan",
+                "BeefCan",
+                "BeefCan",
+                "WaterBottle",
+            };
+
+            RatioBoxPacker packer = new RatioBoxPacker(_itemsDatabase);
+
+            packer.Generate(list.ToArray(), Vector3.up * 10); 
+        }
+        
         private async UniTask SetupItems()
         {
             foreach (var itemData in _progress.items)
