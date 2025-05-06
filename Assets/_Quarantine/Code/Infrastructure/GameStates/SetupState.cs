@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using _Quarantine.Code.GameEntities;
+using _Quarantine.Code.GameProgression.Days;
 using _Quarantine.Code.GameProgression.Days.Loot;
 using _Quarantine.Code.Items.Generation;
 using _Quarantine.Code.InventoryManagement;
@@ -84,7 +85,7 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         private async UniTask CreateItemsGenerator()
         {
-            var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
+            /*var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
             generator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
             generator.transform.position += Vector3.up * 4;
 
@@ -93,26 +94,23 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
             boxGenerator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
             boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
+            */
 
             await UniTask.Yield();
 
-            //RatioBoxGenerator ratioBoxGenerator = new RatioBoxGenerator(_assetsProvider, _itemsDatabase);
-
             var list = new List<string>()
             {
-                "BeefCan",
-                "BeefCan",
                 "WaterBottle",
                 "WaterBottle",
                 "BeefCan",
                 "BeefCan",
                 "BeefCan",
-                "WaterBottle",
+                "BeefCan",
             };
 
-            RatioBoxPacker packer = new RatioBoxPacker(_itemsDatabase);
+            DailyLootPacker packer = new DailyLootPacker(_itemsDatabase);
 
-            packer.Generate(list.ToArray(), Vector3.up * 10); 
+            packer.PackItems(list.ToArray(), "Box", Vector3.up * 0.5f); 
         }
         
         private async UniTask SetupItems()
