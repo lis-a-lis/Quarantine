@@ -1,4 +1,4 @@
-# Quarantine
+# ☢️ Quarantine ☢️
 
 Prologue
 
