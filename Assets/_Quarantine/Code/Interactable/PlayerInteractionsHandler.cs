@@ -1,19 +1,26 @@
 using UnityEngine;
+using _Quarantine.Code.InventoryManagement;
+using UnityEngine.Serialization;
 
 namespace _Quarantine.Code.Interactable
 {
+    [RequireComponent(typeof(PlayerViewRaycaster))]
     public class PlayerInteractionsHandler : MonoBehaviour, IInteractionsHandler
     {
-        [SerializeField] private Transform _playerHead;
-        [SerializeField] private LayerMask _interactableObjectsLayer;
-        [SerializeField] private float _interactDistance = 2f;
-        
+        [SerializeField] private LayerMask _interactableLayer;
+        private PlayerViewRaycaster _playerViewRaycaster;
+
+        private void Awake()
+        {
+            _playerViewRaycaster = GetComponent<PlayerViewRaycaster>();
+        }
+
         public void Interact()
         {
-            if (!Physics.Raycast(_playerHead.position, _playerHead.forward,
-                    out RaycastHit hit, _interactDistance, _interactableObjectsLayer)) return;
+            if (!_playerViewRaycaster.Raycast(out IInteractable interactable, _interactableLayer))
+                return;
             
-            hit.collider.gameObject.GetComponent<IInteractable>().Interact();
+            interactable.Interact();
         }
     }
 }

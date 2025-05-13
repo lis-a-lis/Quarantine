@@ -8,7 +8,7 @@ namespace _Quarantine.Code.Infrastructure.PersistentProgress
     public class GameProgress
     {
         public PlayerSaveData player = new PlayerSaveData(
-            new PlayerTransformSaveData(Vector3.up + Vector3.forward * 1.5f, Quaternion.identity, Quaternion.identity),
+            new PlayerTransformSaveData(Vector3.up * 2f, Quaternion.identity, Quaternion.identity),
             new PlayerInventorySaveData(-1, new List<ItemSaveData>()),
             new PlayerStatsSaveData(0, 0, 0, 0, 0));
         

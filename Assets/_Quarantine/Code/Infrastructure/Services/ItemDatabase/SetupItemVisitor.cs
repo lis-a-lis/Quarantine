@@ -13,6 +13,9 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
             _itemDatabaseService = itemDatabaseService;
         }
 
+        public void Visit(ISetupItem<KnifeItemConfiguration> knife) =>
+            Setup(knife);
+        
         public void Visit(ISetupItem<FoodItemConfiguration> food) =>
             Setup(food);
 

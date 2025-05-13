@@ -9,6 +9,7 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
         public string GetItemName(string itemID);
         public string GetItemDescription(string itemID);
         public Sprite GetItemIcon(string itemID);
+        public string GetFirstItemIDByConfigurationType<TItemConfiguration>() where TItemConfiguration : ItemConfiguration;
         public TItemConfiguration GetItemConfiguration<TItemConfiguration>(string itemID) where TItemConfiguration : ItemConfiguration;
         public Item CreateItemInstance(string itemID);
         public TItemInstance CreateItemInstanceAs<TItemInstance>(string itemID) where TItemInstance : Item;

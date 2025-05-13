@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5800dae64834fe3a38c5a58b7aeaf50, type: 3}
   m_Name: WaterBottle
   m_EditorClassIdentifier: 
-  _durability: 3
+  _durability: 4
   _satietyBonus: 0
-  _waterBonus: 30
+  _waterBonus: 60

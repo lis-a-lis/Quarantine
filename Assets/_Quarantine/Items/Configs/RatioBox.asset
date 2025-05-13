@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5800dae64834fe3a38c5a58b7aeaf50, type: 3}
-  m_Name: BeefCan
+  m_Script: {fileID: 11500000, guid: 0d619862cb7d4b59a36b87c62810f23c, type: 3}
+  m_Name: RatioBox
   m_EditorClassIdentifier: 
-  _durability: 3
-  _satietyBonus: 40
-  _waterBonus: 5
+  _durability: 1

@@ -27,7 +27,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -144,6 +144,15 @@
                     "name": "DropItem",
                     "type": "Button",
                     "id": "4e726335-f6db-4fcf-aaf7-ca5cb8a0ec46",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Place",
+                    "type": "Button",
+                    "id": "dfcc208f-ebe5-4b0e-89df-fd119127a59c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -610,6 +619,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "DropItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a3b4bfb-6818-47b2-85ce-9e44de48ac1e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Place",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

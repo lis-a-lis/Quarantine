@@ -36,6 +36,7 @@ namespace _Quarantine.Code.Input
             _input.Enable();
 
             _input.Player.Interact.performed += OnInteractPerformed;
+            _input.Player.Place.performed += OnPlacePerformed;
             
             _input.Player.Attack.performed += OnAttackPerformed;
             _input.Player.Attack.canceled += OnAttackCanceled;
@@ -57,6 +58,7 @@ namespace _Quarantine.Code.Input
             _input.Disable();
             
             _input.Player.Interact.performed -= OnInteractPerformed;
+            _input.Player.Place.performed -= OnPlacePerformed;
             
             _input.Player.Attack.performed -= OnAttackPerformed;
             _input.Player.Attack.canceled -= OnAttackCanceled;
@@ -72,7 +74,12 @@ namespace _Quarantine.Code.Input
             _input.Player.SelectSlot4.performed -= OnSlot4Selected;
             _input.Player.SelectSlot5.performed -= OnSlot5Selected;
         }
-        
+
+        private void OnPlacePerformed(InputAction.CallbackContext obj)
+        {
+            _inventoryInteractionsHandler.PlaceItem();
+        }
+
         private void Update()
         {
             _fpsController.Move(_input.Player.Move.ReadValue<Vector2>());

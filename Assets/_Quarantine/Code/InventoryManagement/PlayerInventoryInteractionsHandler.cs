@@ -1,20 +1,20 @@
 using System;
 using UnityEngine;
-using _Quarantine.Code.Items.Implementation;
 using Cysharp.Threading.Tasks;
+using _Quarantine.Code.Items.Implementation;
 
 namespace _Quarantine.Code.InventoryManagement
 {
     [RequireComponent(typeof(PlayerInventory))]
+    [RequireComponent(typeof(PlayerViewRaycaster))]
     public class PlayerInventoryInteractionsHandler : MonoBehaviour, IInventoryInteractionsHandler
     {
         [SerializeField] private LayerMask _itemsLayerMask;
-        [SerializeField] private Transform _playerHead;
         [SerializeField] private PlayerHandsView _playerHands;
-        [SerializeField] private float _pickUpDistance = 2;
         [SerializeField] private float _slotSelectionDuration = 1f;
         [SerializeField] private float _throwForceMultiplier = 5;
 
+        private PlayerViewRaycaster _playerViewRaycaster;
         private PlayerInventory _inventory;
         private bool _isSwitching;
 
@@ -24,6 +24,7 @@ namespace _Quarantine.Code.InventoryManagement
         private void Awake()
         {
             _inventory = GetComponent<PlayerInventory>();
+            _playerViewRaycaster = GetComponent<PlayerViewRaycaster>();
         }
 
         public void Initialize()
@@ -74,6 +75,8 @@ namespace _Quarantine.Code.InventoryManagement
 
             await UniTask.WaitForSeconds(_slotSelectionDuration);
 
+            ItemAppearInHands?.Invoke(_inventory.SelectedItem);
+            
             _isSwitching = false;
         }
 
@@ -87,11 +90,8 @@ namespace _Quarantine.Code.InventoryManagement
 
         public void PickUpItem()
         {
-            if (!Physics.Raycast(_playerHead.position + _playerHead.forward * 0.7f,
-                    _playerHead.forward, out var hit, _pickUpDistance, _itemsLayerMask))
+            if (!_playerViewRaycaster.Raycast(out Item item, _itemsLayerMask))
                 return;
-
-            Item item = hit.collider.GetComponent<Item>();
 
             bool isItemPickedToSelectedSlot = _inventory.IsSelectedSlotEmpty;
             
@@ -125,22 +125,29 @@ namespace _Quarantine.Code.InventoryManagement
             droppedItem.transform.SetParent(null);
             Rigidbody itemRigidbody = droppedItem.GetComponent<Rigidbody>();
             itemRigidbody.isKinematic = false;
-            itemRigidbody.AddForce(_playerHead.forward * _throwForceMultiplier, ForceMode.Impulse);
+            itemRigidbody.AddForce(_playerViewRaycaster.ViewDirection * _throwForceMultiplier, ForceMode.Impulse);
         }
 
         public void PlaceItem()
         {
+            if (_isSwitching)
+                return;
+
+            if (!_playerHands.IsItemInHands)
+                return;
+
             if (_inventory.IsSelectedSlotEmpty)
                 return;
 
-            if (Physics.Raycast(_playerHead.position, _playerHead.forward, out var hit, _pickUpDistance))
+            if (_playerViewRaycaster.Raycast(out RaycastHit hit))
             {
                 if (hit.normal != Vector3.up)
                     return;
 
                 _inventory.DropSelectedItem(out Item droppedItem);
+                _playerHands.ClearItemInHands();
                 droppedItem.transform.position = hit.point;
-                droppedItem.transform.rotation = Quaternion.LookRotation(hit.normal);
+                droppedItem.transform.rotation = Quaternion.identity;
                 droppedItem.gameObject.SetActive(true);
             }
         }

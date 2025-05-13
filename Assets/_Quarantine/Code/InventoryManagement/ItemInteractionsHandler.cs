@@ -39,7 +39,13 @@ namespace _Quarantine.Code.InventoryManagement
                 [typeof(ICigarette)] = InteractWithCigarette,
                 [typeof(IFireSource)] = InteractWithFireSource,
                 [typeof(IUsableStuff)] = InteractWithUsableStuff,
+                [typeof(IBox)] = InteractWithRatioBox
             };
+        }
+
+        private void InteractWithRatioBox()
+        {
+            
         }
 
         private void InteractWithCigarette()

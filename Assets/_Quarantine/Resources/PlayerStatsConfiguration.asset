@@ -16,5 +16,5 @@ MonoBehaviour:
   _maxMind: 100
   _maxSatiety: 100
   _maxWater: 100
-  _defaultSatietyDecrease: 3
-  _defaultWaterDecrease: 5
+  _defaultSatietyDecrease: 1
+  _defaultWaterDecrease: 1.5

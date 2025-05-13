@@ -50,6 +50,17 @@ namespace _Quarantine.Code.Infrastructure.Services.ItemDatabase
 
             return cell.Icon;
         }
+
+        public string GetFirstItemIDByConfigurationType<TItemConfiguration>() where TItemConfiguration : ItemConfiguration
+        {
+            foreach (var cell in _database)
+            {
+                if (cell.Value.Configuration is TItemConfiguration itemConfiguration)
+                    return itemConfiguration.ID;
+            }
+            
+            throw new KeyNotFoundException($"No item with configuration type {typeof(TItemConfiguration).Name}");
+        }
         
         public TItemConfiguration GetItemConfiguration<TItemConfiguration>(string itemID) where TItemConfiguration : ItemConfiguration
         {

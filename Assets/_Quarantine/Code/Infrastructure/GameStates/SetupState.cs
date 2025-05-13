@@ -19,6 +19,7 @@ using _Quarantine.Code.Infrastructure.Services.AssetsManagement;
 using _Quarantine.Code.Stats;
 using _Quarantine.Code.UI.HUD.PlayerStatsHUD;
 using NUnit.Framework;
+using Object = System.Object;
 
 namespace _Quarantine.Code.Infrastructure.GameStates
 {
@@ -96,8 +97,12 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
             */
 
-            await UniTask.Yield();
+            //await UniTask.Yield();
 
+            RatioBoxGenerator generator = UnityEngine.Object.FindFirstObjectByType<RatioBoxGenerator>();
+            generator.Initialize(_itemsDatabase);
+
+            /*
             var list = new List<string>()
             {
                 "WaterBottle",
@@ -110,7 +115,9 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
             DailyLootPacker packer = new DailyLootPacker(_itemsDatabase);
 
-            packer.PackItems(list.ToArray(), "Box", Vector3.up * 0.5f); 
+            packer.PackItems(list.ToArray(), "Box", Vector3.up * 1.5f);
+            */
+
         }
         
         private async UniTask SetupItems()

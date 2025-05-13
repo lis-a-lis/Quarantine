@@ -28,8 +28,13 @@ MonoBehaviour:
     _icon: {fileID: 21300000, guid: 3c7bf1e65df8800468ec68b3a6bd64ef, type: 3}
     _configuration: {fileID: 11400000, guid: f31e439104231d84fa81de71f7f12fac, type: 2}
     _prefab: {fileID: 4828676360462563548, guid: 5ca043f482e76304cb5e535f8c913780, type: 3}
-  - _name: BeefCan
+  - _name: Stewed Beef
     _description: 
     _icon: {fileID: 21300000, guid: 827500e5f92487648a6c4fd6688132d6, type: 3}
     _configuration: {fileID: 11400000, guid: f6d8d436e14587c42be5af88932a7e59, type: 2}
-    _prefab: {fileID: 3195069056843296567, guid: bed33cb82c6830748b70994f67776b6b, type: 3}
+    _prefab: {fileID: 3624917602115030143, guid: 3ba897b14ae908447985f36641bea995, type: 3}
+  - _name: Peaches
+    _description: 
+    _icon: {fileID: 21300000, guid: 827500e5f92487648a6c4fd6688132d6, type: 3}
+    _configuration: {fileID: 11400000, guid: 045be1a85de9bea43bc2e2a855853f58, type: 2}
+    _prefab: {fileID: 8347479233847005506, guid: c25fa5ca95d96234fb6c81b90c07e2d6, type: 3}

@@ -9,27 +9,29 @@ namespace _Quarantine.Code.GameProgression.Days
     public class DailyLootPacker
     {
         private const int MaxAttemptsPerItem = 5;
-        
+
         private readonly IItemDatabaseService _itemDatabaseService;
+
         private Transform _boxTransform;
         private Vector3 _boxSize;
         private float _placementStep = 0.1f;
-        private List<Bounds> _occupiedSpaces = new List<Bounds>();
         private List<MeshFilter> _itemMeshes;
+        private List<Bounds> _occupiedSpaces;
+        private Rigidbody _boxRigidbody;
 
         public DailyLootPacker(IItemDatabaseService itemDatabaseService)
         {
             _itemDatabaseService = itemDatabaseService;
         }
-        
+
         public void PackItems(string[] itemIds, string boxId, Vector3 boxPosition)
         {
-            _occupiedSpaces.Clear();
-            
+            _occupiedSpaces = new List<Bounds>();
+
             CreateBoxInstance(boxId, boxPosition);
-            
+
             CreateItemInstances(itemIds);
-            
+
             foreach (var meshFilter in _itemMeshes)
             {
                 bool placed = false;
@@ -44,15 +46,15 @@ namespace _Quarantine.Code.GameProgression.Days
                     if (TryFindPosition(currentSize, out Vector3 position))
                     {
                         meshFilter.transform.localPosition = _boxTransform.position
-                                                             + position 
+                                                             + position
                                                              + currentSize / 2
                                                              - new Vector3(_boxSize.x, 0, _boxSize.z) / 2;
-                        
+
                         meshFilter.transform.localRotation = rotation;
-                        
+
                         if (meshFilter.transform.localRotation == Quaternion.Euler(0, 0, 90))
                             meshFilter.transform.position += new Vector3(currentSize.x / 2, 0, 0);
-                        
+
                         meshFilter.GetComponent<Rigidbody>().isKinematic = false;
                         placed = true;
                     }
@@ -63,23 +65,26 @@ namespace _Quarantine.Code.GameProgression.Days
                 if (!placed)
                     Debug.LogWarning($"Не удалось разместить предмет размером {meshFilter.sharedMesh.bounds.size}");
             }
+            
+            _boxRigidbody.isKinematic = false;
         }
-        
+
         private void CreateBoxInstance(string boxId, Vector3 boxPosition)
         {
             Item box = _itemDatabaseService.CreateItemInstance(boxId);
-            
+
             box.transform.position = boxPosition;
-            
+
             _boxTransform = box.transform;
             _boxSize = box.GetComponent<BoxCollider>().bounds.size;
-            box.GetComponent<Rigidbody>().isKinematic = true;
+            _boxRigidbody = box.GetComponent<Rigidbody>();
+            _boxRigidbody.isKinematic = true;
         }
 
         private void CreateItemInstances(string[] itemIds)
         {
             _itemMeshes = new List<MeshFilter>();
-            
+
             foreach (var id in itemIds)
             {
                 Item item = _itemDatabaseService.CreateItemInstance(id);
@@ -87,12 +92,12 @@ namespace _Quarantine.Code.GameProgression.Days
                 _itemMeshes.Add(item.GetComponent<MeshFilter>());
                 CalculatePlaceStep(_itemMeshes[^1].sharedMesh.bounds.size);
             }
-            
-            _itemMeshes = _itemMeshes.OrderByDescending(mesh => mesh.sharedMesh.bounds.size.x * 
-                                                                mesh.sharedMesh.bounds.size.y * 
-                                                                mesh.sharedMesh.bounds.size.z).ToList();    
+
+            _itemMeshes = _itemMeshes.OrderByDescending(mesh => mesh.sharedMesh.bounds.size.x *
+                                                                mesh.sharedMesh.bounds.size.y *
+                                                                mesh.sharedMesh.bounds.size.z).ToList();
         }
-        
+
         private void CalculatePlaceStep(Vector3 size)
         {
             float minSizeBound = Mathf.Min(size.x, size.y, size.z) / 4;
@@ -147,7 +152,7 @@ namespace _Quarantine.Code.GameProgression.Days
             }
 
             position = Vector3.zero;
-            
+
             return false;
         }
 
