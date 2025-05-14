@@ -36,8 +36,8 @@ namespace _Quarantine.Code.Infrastructure.GameStates
             _menu.gameObject.SetActive(true);
             _menu.RequestSent += HandleMainMenuRequest;
             
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            /*Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;*/
         }
 
         public void Exit()

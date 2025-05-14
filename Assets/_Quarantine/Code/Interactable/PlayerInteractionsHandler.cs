@@ -1,6 +1,5 @@
 using UnityEngine;
 using _Quarantine.Code.InventoryManagement;
-using UnityEngine.Serialization;
 
 namespace _Quarantine.Code.Interactable
 {
@@ -8,6 +7,7 @@ namespace _Quarantine.Code.Interactable
     public class PlayerInteractionsHandler : MonoBehaviour, IInteractionsHandler
     {
         [SerializeField] private LayerMask _interactableLayer;
+        
         private PlayerViewRaycaster _playerViewRaycaster;
 
         private void Awake()
@@ -17,7 +17,7 @@ namespace _Quarantine.Code.Interactable
 
         public void Interact()
         {
-            if (!_playerViewRaycaster.Raycast(out IInteractable interactable, _interactableLayer))
+            if (!_playerViewRaycaster.RaycastTrigger(out IInteractable interactable, _interactableLayer))
                 return;
             
             interactable.Interact();

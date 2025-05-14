@@ -18,6 +18,7 @@ namespace _Quarantine.Code.Items.Implementation
         private float _water;
         private float _calories;
         private float _maxDurability;
+        private float _durabilityPercentByUse;
         
         public void Setup(FoodItemConfiguration configuration)
         {
@@ -45,8 +46,8 @@ namespace _Quarantine.Code.Items.Implementation
             }
 
             Debug.Log(stats);
-            stats.AddEffect(new TemporaryEffect(StatsType.Satiety, _calories, 1));
-            stats.AddEffect(new TemporaryEffect(StatsType.Water, _water, 1));
+            stats.AddEffect(new TemporaryEffect(StatsType.Satiety, _calories * 1 / _maxDurability, 1));
+            stats.AddEffect(new TemporaryEffect(StatsType.Water, _water * 1 / _maxDurability, 1));
             
             Durability -= 1;
             ChangeFilling();

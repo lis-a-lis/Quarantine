@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
-using _Quarantine.Code.Items.Configuration.Configs;
 using UnityEngine;
+using _Quarantine.Code.Items.Configuration.Configs;
+using _Quarantine.Code.Infrastructure.Services.ItemDatabase;
 
 namespace _Quarantine.Code.GameProgression.Days
 {
@@ -19,6 +19,11 @@ namespace _Quarantine.Code.GameProgression.Days
             _database = database;
             _packer = new DailyLootPacker(_database);
             _ratioBoxID = database.GetFirstItemIDByConfigurationType<BoxItemConfiguration>();
+        }
+
+        public void GenerateRatioBox(string[] items, Vector3 position)
+        {
+            _packer.PackItems(items, _ratioBoxID, position);
         }
 
         public void GenerateRatioBoxInspector()

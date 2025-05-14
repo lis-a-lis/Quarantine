@@ -20,8 +20,9 @@ namespace _Quarantine.Code.Input
         {
             _input = new InputSystem_Actions();
 
-            Cursor.visible = false;
+            /*Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            */
             
             _playerEntity = GetComponent<PlayerEntity>();
            

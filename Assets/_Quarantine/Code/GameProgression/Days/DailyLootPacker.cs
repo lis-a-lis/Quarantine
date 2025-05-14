@@ -18,6 +18,7 @@ namespace _Quarantine.Code.GameProgression.Days
         private List<MeshFilter> _itemMeshes;
         private List<Bounds> _occupiedSpaces;
         private Rigidbody _boxRigidbody;
+        private RatioBox _box;
 
         public DailyLootPacker(IItemDatabaseService itemDatabaseService)
         {
@@ -56,6 +57,8 @@ namespace _Quarantine.Code.GameProgression.Days
                             meshFilter.transform.position += new Vector3(currentSize.x / 2, 0, 0);
 
                         meshFilter.GetComponent<Rigidbody>().isKinematic = false;
+                        
+                        _box.AddItemInside(meshFilter.gameObject);
                         placed = true;
                     }
 
@@ -71,13 +74,12 @@ namespace _Quarantine.Code.GameProgression.Days
 
         private void CreateBoxInstance(string boxId, Vector3 boxPosition)
         {
-            Item box = _itemDatabaseService.CreateItemInstance(boxId);
+            _box = _itemDatabaseService.CreateItemInstanceAs<RatioBox>(boxId);
+            _box.transform.position = boxPosition;
 
-            box.transform.position = boxPosition;
-
-            _boxTransform = box.transform;
-            _boxSize = box.GetComponent<BoxCollider>().bounds.size;
-            _boxRigidbody = box.GetComponent<Rigidbody>();
+            _boxTransform = _box.transform;
+            _boxSize = _box.InternalSize;
+            _boxRigidbody = _box.GetComponent<Rigidbody>();
             _boxRigidbody.isKinematic = true;
         }
 

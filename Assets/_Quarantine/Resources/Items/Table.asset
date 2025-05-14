@@ -22,12 +22,17 @@ MonoBehaviour:
     _description: 
     _icon: {fileID: 21300000, guid: fb66b0e8dd58c4947b0e9646d4adbcdc, type: 3}
     _configuration: {fileID: 11400000, guid: 0ae1bfaa41f4cac44817487ce735b7e7, type: 2}
-    _prefab: {fileID: 6100716237685445459, guid: c88b9437a5ed27247b5f570978e2ee98, type: 3}
+    _prefab: {fileID: 4640205562982385431, guid: 3f12c84464dcec541bc6badbcc6e9ad9, type: 3}
   - _name: WaterBottle
     _description: 
     _icon: {fileID: 21300000, guid: 3c7bf1e65df8800468ec68b3a6bd64ef, type: 3}
     _configuration: {fileID: 11400000, guid: f31e439104231d84fa81de71f7f12fac, type: 2}
     _prefab: {fileID: 4828676360462563548, guid: 5ca043f482e76304cb5e535f8c913780, type: 3}
+  - _name: Knife
+    _description: 
+    _icon: {fileID: 21300000, guid: f53370c39d1bc994ca936f7f152d2597, type: 3}
+    _configuration: {fileID: 11400000, guid: 97827d0cf79365d4bb451113841d565e, type: 2}
+    _prefab: {fileID: 612590850356109776, guid: acc28e44a199f6a459445a9304573462, type: 3}
   - _name: Stewed Beef
     _description: 
     _icon: {fileID: 21300000, guid: 827500e5f92487648a6c4fd6688132d6, type: 3}

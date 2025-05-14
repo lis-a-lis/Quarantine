@@ -86,37 +86,14 @@ namespace _Quarantine.Code.Infrastructure.GameStates
 
         private async UniTask CreateItemsGenerator()
         {
-            /*var generator = new GameObject("GENERATOR").AddComponent<LootGenerator>();
-            generator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
-            generator.transform.position += Vector3.up * 4;
+
+            Item knife = _itemsDatabase.CreateItemInstance("Knife");
+            knife.transform.position = new Vector3(-1, 1.6f, 2.8f);
 
             await UniTask.Yield();
-
-            var boxGenerator = new GameObject("BOXES GENERATOR").AddComponent<BoxesGenerator>();
-            boxGenerator.Initialize(_itemsDatabase, (entity) => _progressSaveService.AddSavableEntity(entity));
-            boxGenerator.transform.position += Vector3.up * 4 + Vector3.right * 2;
-            */
-
-            //await UniTask.Yield();
-
+            
             RatioBoxGenerator generator = UnityEngine.Object.FindFirstObjectByType<RatioBoxGenerator>();
             generator.Initialize(_itemsDatabase);
-
-            /*
-            var list = new List<string>()
-            {
-                "WaterBottle",
-                "WaterBottle",
-                "BeefCan",
-                "BeefCan",
-                "BeefCan",
-                "BeefCan",
-            };
-
-            DailyLootPacker packer = new DailyLootPacker(_itemsDatabase);
-
-            packer.PackItems(list.ToArray(), "Box", Vector3.up * 1.5f);
-            */
 
         }
         

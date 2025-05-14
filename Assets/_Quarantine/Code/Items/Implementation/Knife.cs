@@ -15,5 +15,10 @@ namespace _Quarantine.Code.Items.Implementation
         {
             visitor.Visit(this);
         }
+
+        public void Attack()
+        {
+            
+        }
     }
 }

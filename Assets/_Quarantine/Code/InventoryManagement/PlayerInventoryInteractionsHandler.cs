@@ -90,7 +90,7 @@ namespace _Quarantine.Code.InventoryManagement
 
         public void PickUpItem()
         {
-            if (!_playerViewRaycaster.Raycast(out Item item, _itemsLayerMask))
+            if (!_playerViewRaycaster.RaycastTrigger(out Item item, _itemsLayerMask))
                 return;
 
             bool isItemPickedToSelectedSlot = _inventory.IsSelectedSlotEmpty;
@@ -120,6 +120,7 @@ namespace _Quarantine.Code.InventoryManagement
             if (!_inventory.DropSelectedItem(out Item droppedItem))
                 return;
 
+            ItemDisappearInHands?.Invoke();
             _playerHands.ClearItemInHands();
             droppedItem.gameObject.SetActive(true);
             droppedItem.transform.SetParent(null);
@@ -143,7 +144,8 @@ namespace _Quarantine.Code.InventoryManagement
             {
                 if (hit.normal != Vector3.up)
                     return;
-
+                
+                ItemDisappearInHands?.Invoke();
                 _inventory.DropSelectedItem(out Item droppedItem);
                 _playerHands.ClearItemInHands();
                 droppedItem.transform.position = hit.point;

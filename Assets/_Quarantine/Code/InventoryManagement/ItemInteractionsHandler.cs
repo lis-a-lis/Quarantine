@@ -8,10 +8,12 @@ using _Quarantine.Code.Items.Implementation;
 namespace _Quarantine.Code.InventoryManagement
 {
     [RequireComponent(typeof(PlayerInventoryInteractionsHandler))]
+    [RequireComponent(typeof(PlayerViewRaycaster))]
     [RequireComponent(typeof(PlayerStats))]
     public class ItemInteractionsHandler : MonoBehaviour
     {
         private PlayerInventoryInteractionsHandler _inventoryInteractionsHandler;
+        private PlayerViewRaycaster _playerViewRaycaster;
         private PlayerEquipment _equipment;
         private PlayerStats _stats;
 
@@ -32,6 +34,7 @@ namespace _Quarantine.Code.InventoryManagement
         {
             _stats = GetComponent<PlayerStats>();
             _equipment = GetComponent<PlayerEquipment>();
+            _playerViewRaycaster = GetComponent<PlayerViewRaycaster>();
             _inventoryInteractionsHandler = GetComponent<PlayerInventoryInteractionsHandler>();
 
             _interactionsByItemBehaviourType = new Dictionary<Type, Action>()
@@ -39,8 +42,17 @@ namespace _Quarantine.Code.InventoryManagement
                 [typeof(ICigarette)] = InteractWithCigarette,
                 [typeof(IFireSource)] = InteractWithFireSource,
                 [typeof(IUsableStuff)] = InteractWithUsableStuff,
-                [typeof(IBox)] = InteractWithRatioBox
+                //[typeof(IBox)] = InteractWithRatioBox,
+                [typeof(IKnife)] = InteractWithKnife,
             };
+        }
+
+        private void InteractWithKnife()
+        {
+            if (!_playerViewRaycaster.Raycast(out IBox box))
+                return;
+            
+            box.Open();
         }
 
         private void InteractWithRatioBox()

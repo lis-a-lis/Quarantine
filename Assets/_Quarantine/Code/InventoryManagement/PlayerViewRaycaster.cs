@@ -1,9 +1,5 @@
-using System;
 using UnityEngine;
 using _Quarantine.Code.GameEntities;
-using _Quarantine.Code.Interactable;
-using _Quarantine.Code.Utils.Extensions;
-using _Quarantine.Code.Items.Implementation;
 
 namespace _Quarantine.Code.InventoryManagement
 {
@@ -14,17 +10,8 @@ namespace _Quarantine.Code.InventoryManagement
         [SerializeField] private float _maxRayDistance;
         [SerializeField] private LayerMask _ignoreLayer;
 
-        /*[SerializeField] private LayerMask _itemsLayer;
-        [SerializeField] private LayerMask _interactableObjectsLayer;
-        */
-
         public Vector3 ViewDirection => _viewTransform.forward;
         
-        /*private void Update()
-        {
-            ExecuteRaycast();
-        }*/
-
         public bool Raycast(out GameObject hitObject)
         {
             bool result = Raycast(out RaycastHit hit);
@@ -61,34 +48,19 @@ namespace _Quarantine.Code.InventoryManagement
             return hit.collider.gameObject.TryGetComponent(out expectedComponent);
         }
         
-        public bool Raycast<TExpectedComponent>(out TExpectedComponent expectedComponent, LayerMask layer)
+        public bool RaycastTrigger<TExpectedComponent>(out TExpectedComponent expectedComponent, LayerMask layer)
             where TExpectedComponent : class
         {
             expectedComponent = null;
             
-            if (!Raycast(out RaycastHit hit, layer))
+            if (!Physics.Raycast(_viewTransform.position, _viewTransform.forward,
+                    out RaycastHit hit, _maxRayDistance, ~_ignoreLayer & layer, QueryTriggerInteraction.Collide))
                 return false;
+            
+            /*if (!Raycast(out RaycastHit hit, layer))
+                return false;*/
 
             return hit.collider.gameObject.TryGetComponent(out expectedComponent);
         }
-
-        /*private void ExecuteRaycast()
-        {
-            if (!Physics.Raycast(_viewTransform.position, _viewTransform.forward,
-                    out RaycastHit hit, _maxRayDistance))
-                return;
-
-            GameObject objectInFocus = hit.collider.gameObject;
-
-            if (_itemsLayer.Contains(objectInFocus.layer))
-                ItemInFocus?.Invoke(objectInFocus.GetComponent<Item>());
-            else
-                ItemOutOfFocus?.Invoke();
-
-            if (_interactableObjectsLayer.Contains(objectInFocus.layer))
-                InteractableObjectInFocus?.Invoke(objectInFocus.GetComponent<IInteractable>());
-            else
-                InteractableObjectOutOfFocus?.Invoke();
-        }*/
     }
 }
